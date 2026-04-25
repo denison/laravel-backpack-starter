@@ -1,0 +1,120 @@
+version: "3.7"
+
+services:
+  # ========== APP - PRODUÇÃO ==========
+  app:
+    profiles: ["prod"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/
+    environment:
+      TZ: America/Sao_Paulo
+      APP_ENV: production
+      APP_DEBUG: "false"
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      - redis
+    networks:
+      - laravel
+    volumes:
+      - app_storage:/var/www/storage
+
+  # ========== APP - DESENVOLVIMENTO ==========
+  app-dev:
+    profiles: ["dev"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/
+    environment:
+      TZ: America/Sao_Paulo
+      APP_ENV: local
+      APP_DEBUG: "true"
+      RUN_MIGRATIONS: "false"   # coloque "false" se não quiser migrar a cada up
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www            # bind-mount só no DEV
+      - ./docker/php/entrypoint-dev.sh:/entrypoint.sh 
+    depends_on:
+      - redis
+    networks:
+      - laravel
+
+  # ========== NGINX - PRODUÇÃO ==========
+  nginx:
+    profiles: ["prod"]
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile.nginx    # vê abaixo o conteúdo
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+    networks:
+      - laravel
+    volumes:
+      - app_storage:/var/www/storage:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./public/.well-known:/var/www/public/.well-known
+
+  # ========== NGINX - DESENVOLVIMENTO ==========
+  nginx-dev:
+    profiles: ["dev"]
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8989:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/laravel.dev.conf:/etc/nginx/conf.d/laravel.conf:ro
+      - /dev/null:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app-dev
+    networks:
+      - laravel
+
+  # ========== MYSQL (pode usar nos dois perfis) ==========
+  db:
+    profiles: ["dev", "prod"]
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - ./.docker/mysql/dbdata:/var/lib/mysql
+    ports:
+      - "3388:3306"
+    networks:
+      - laravel
+
+  # ========== REDIS ==========
+  redis:
+    profiles: ["dev", "prod"]
+    image: redis:7-alpine          # evita surpresas do :latest
+    networks:
+      - laravel
+    restart: unless-stopped        # volta sozinho se parar
+    volumes:
+      - redis-data:/data           # evita container/volume fantasma
+    healthcheck:                   # confirma que o serviço está respondendo
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+networks:
+  laravel:
+    driver: bridge
+volumes:
+  app_storage:
+  redis-data:

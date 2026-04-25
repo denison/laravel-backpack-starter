@@ -43,7 +43,7 @@ Se esse passo faltar, o `/admin` abre com HTML basico, sem CSS/JS do Tabler.
 Para testar:
 
 ```bash
-php artisan serve
+agr
 ```
 
 Acesse:

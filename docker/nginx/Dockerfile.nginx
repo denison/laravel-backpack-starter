@@ -1,0 +1,12 @@
+FROM nginx:alpine
+RUN rm -f /etc/nginx/conf.d/default.conf
+COPY docker/nginx/laravel.conf /etc/nginx/conf.d/laravel.conf
+
+# Config HTTPS usada somente no perfil de producao.
+# Quando renomear docker/nginx/pericia-ssl.conf para o nome do projeto,
+# atualize tambem o origem e o destino desta linha.
+COPY docker/nginx/pericia-ssl.conf /etc/nginx/conf.d/pericia-ssl.conf
+
+COPY public /var/www/public
+# symlink para o volume compartilhado do storage
+RUN ln -s /var/www/storage/app/public /var/www/public/storage
