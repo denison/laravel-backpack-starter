@@ -2,11 +2,17 @@
 
 namespace App\Providers;
 
+use App\Contracts\Repositories\PermissionRepositoryInterface;
+use App\Contracts\Repositories\RoleRepositoryInterface;
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Admin\PermissionCrudController as AppPermissionCrudController;
 use App\Http\Controllers\Admin\RoleCrudController as AppRoleCrudController;
 use App\Http\Controllers\Admin\UserCrudController as AppUserCrudController;
 use App\Models\Permission as AppPermission;
 use App\Models\Role as AppRole;
+use App\Repositories\PermissionRepository;
+use App\Repositories\RoleRepository;
+use App\Repositories\UserRepository;
 use Backpack\PermissionManager\app\Http\Controllers\PermissionCrudController;
 use Backpack\PermissionManager\app\Http\Controllers\RoleCrudController;
 use Backpack\PermissionManager\app\Http\Controllers\UserCrudController;
@@ -26,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserCrudController::class, AppUserCrudController::class);
         $this->app->bind(RoleCrudController::class, AppRoleCrudController::class);
         $this->app->bind(PermissionCrudController::class, AppPermissionCrudController::class);
+
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
+        $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
     }
 
     /**

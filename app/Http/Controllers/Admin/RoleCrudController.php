@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\RoleService;
+use App\Traits\HasCrudRoutePermissions;
+use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Http\Requests\RoleStoreCrudRequest as StoreRequest;
@@ -19,6 +22,15 @@ class RoleCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use HasCrudRoutePermissions;
+    use HasCrudUiPermissions;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->applyCrudRoutePermissions('roles');
+    }
 
     public function setup()
     {
@@ -31,6 +43,8 @@ class RoleCrudController extends CrudController
 
         CRUD::setCreateView('admin.roles.form');
         CRUD::setEditView('admin.roles.form');
+
+        $this->applyCrudUiPermissions('roles');
 
         // deny access according to configuration file
         if (config('backpack.permissionmanager.allow_role_create') == false) {
@@ -122,7 +136,10 @@ class RoleCrudController extends CrudController
         $this->crud->unsetValidation();
 
         $response = $this->traitStore();
-        $this->syncPermissions($this->crud->entry);
+        $this->roleService()->syncPermissions(
+            $this->crud->entry,
+            (array) $this->crud->getRequest()->input('permissions', [])
+        );
 
         app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
@@ -135,7 +152,10 @@ class RoleCrudController extends CrudController
         $this->crud->unsetValidation();
 
         $response = $this->traitUpdate();
-        $this->syncPermissions($this->crud->entry);
+        $this->roleService()->syncPermissions(
+            $this->crud->entry,
+            (array) $this->crud->getRequest()->input('permissions', [])
+        );
 
         app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
@@ -171,25 +191,12 @@ class RoleCrudController extends CrudController
 
     protected function setupRoleFormData(): void
     {
-        $permissionModel = $this->permission_model;
-
-        $this->data['permissionsList'] = $permissionModel::query()
-            ->orderBy('name')
-            ->get();
+        $this->data['permissionsList'] = $this->roleService()->permissionsForForm();
     }
 
-    protected function syncPermissions($role): void
+    protected function roleService(): RoleService
     {
-        if (! $role) {
-            return;
-        }
-
-        $permissionIds = collect($this->crud->getRequest()->input('permissions', []))
-            ->filter()
-            ->map(fn ($id) => (int) $id)
-            ->all();
-
-        $role->permissions()->sync($permissionIds);
+        return app(RoleService::class);
     }
 
     /*

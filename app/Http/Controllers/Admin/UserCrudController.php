@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\UserService;
+use App\Traits\HasCrudRoutePermissions;
+use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
-use Illuminate\Support\Facades\Hash;
 
 class UserCrudController extends CrudController
 {
@@ -15,6 +17,15 @@ class UserCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use HasCrudRoutePermissions;
+    use HasCrudUiPermissions;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->applyCrudRoutePermissions('users');
+    }
 
     public function setup()
     {
@@ -24,6 +35,8 @@ class UserCrudController extends CrudController
 
         CRUD::setCreateView('admin.users.form');
         CRUD::setEditView('admin.users.form');
+
+        $this->applyCrudUiPermissions('users');
     }
 
     public function setupListOperation()
@@ -138,11 +151,15 @@ class UserCrudController extends CrudController
     public function store()
     {
         $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->setRequest($this->userService()->prepareRequestForSave($this->crud->getRequest()));
         $this->crud->unsetValidation(); // validation has already been run
 
         $response = $this->traitStore();
-        $this->syncRolesAndPermissions($this->crud->entry);
+        $this->userService()->syncRolesAndPermissions(
+            $this->crud->entry,
+            (array) $this->crud->getRequest()->input('roles', []),
+            (array) $this->crud->getRequest()->input('permissions', [])
+        );
 
         return $response;
     }
@@ -155,33 +172,17 @@ class UserCrudController extends CrudController
     public function update()
     {
         $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->setRequest($this->userService()->prepareRequestForSave($this->crud->getRequest()));
         $this->crud->unsetValidation(); // validation has already been run
 
         $response = $this->traitUpdate();
-        $this->syncRolesAndPermissions($this->crud->entry);
+        $this->userService()->syncRolesAndPermissions(
+            $this->crud->entry,
+            (array) $this->crud->getRequest()->input('roles', []),
+            (array) $this->crud->getRequest()->input('permissions', [])
+        );
 
         return $response;
-    }
-
-    /**
-     * Handle password input fields.
-     */
-    protected function handlePasswordInput($request)
-    {
-        // Remove fields not present on the user.
-        $request->request->remove('password_confirmation');
-        $request->request->remove('roles_show');
-        $request->request->remove('permissions_show');
-
-        // Encrypt password if specified.
-        if ($request->input('password')) {
-            $request->request->set('password', Hash::make($request->input('password')));
-        } else {
-            $request->request->remove('password');
-        }
-
-        return $request;
     }
 
     protected function addUserFields()
@@ -241,44 +242,13 @@ class UserCrudController extends CrudController
 
     protected function setupUserFormData(): void
     {
-        $roleModel = config('permission.models.role');
-        $permissionModel = config('permission.models.permission');
-        $logged = backpack_user();
-
-        $rolesQuery = $roleModel::query()
-            ->with('permissions:id,name,display_name')
-            ->orderBy('name');
-        if ($logged && method_exists($logged, 'hasRole') && ! $logged->hasRole('super')) {
-            $rolesQuery->where('name', '!=', 'super');
+        foreach ($this->userService()->formData(backpack_user()) as $key => $value) {
+            $this->data[$key] = $value;
         }
-
-        $permissionsQuery = $permissionModel::query()->orderBy('name');
-        if ($logged && method_exists($logged, 'hasRole') && ! $logged->hasRole('super')) {
-            $allowedPermissionIds = $logged->getAllPermissions()->pluck('id')->all();
-            $permissionsQuery->whereIn('id', $allowedPermissionIds);
-        }
-
-        $this->data['rolesList'] = $rolesQuery->get();
-        $this->data['permissionsList'] = $permissionsQuery->get();
     }
 
-    protected function syncRolesAndPermissions($user): void
+    protected function userService(): UserService
     {
-        if (! $user) {
-            return;
-        }
-
-        $roleIds = collect($this->crud->getRequest()->input('roles', []))
-            ->filter()
-            ->map(fn ($id) => (int) $id)
-            ->all();
-
-        $permissionIds = collect($this->crud->getRequest()->input('permissions', []))
-            ->filter()
-            ->map(fn ($id) => (int) $id)
-            ->all();
-
-        $user->roles()->sync($roleIds);
-        $user->permissions()->sync($permissionIds);
+        return app(UserService::class);
     }
 }

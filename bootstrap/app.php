@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Laravel 12: aliases de middleware ficam aqui, no lugar do antigo app/Http/Kernel.php.
+        $middleware->alias([
+            'check.permission' => \App\Http\Middleware\CheckPermissionFromRoute::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -139,7 +139,78 @@ Exemplo:
 ],
 ```
 
+### Middleware de Permissao
+
+No Laravel 12, aliases de middleware sao registrados em `bootstrap/app.php`, dentro de `withMiddleware()`. Nao existe `app/Http/Kernel.php` por padrao como nos projetos Laravel antigos.
+
+Alias atual:
+
+```php
+'check.permission' => \App\Http\Middleware\CheckPermissionFromRoute::class,
+```
+
+Uso padrao nos CRUDs:
+
+```php
+$this->applyCrudRoutePermissions('users');
+$this->applyCrudUiPermissions('users');
+```
+
+Arquivos base:
+
+```text
+app/Http/Middleware/CheckPermissionFromRoute.php
+app/Traits/HasCrudRoutePermissions.php
+app/Traits/HasCrudUiPermissions.php
+```
+
 ## Desenvolvimento
+
+## Padrao de Arquitetura
+
+Para CRUDs administrativos, o projeto segue este corte:
+
+```text
+CrudController -> Service -> RepositoryInterface -> Repository -> Model
+```
+
+Responsabilidades:
+
+- `CrudController`: configura Backpack, rotas, colunas, campos, filtros, views e regras objetivas daquele CRUD.
+- `Service`: regra de negocio, preparo de dados antes de salvar, transacoes e sincronizacoes.
+- `RepositoryInterface`: contrato da persistencia.
+- `Repository`: consultas Eloquent e operacoes de banco.
+- `Model`: relacionamentos, casts, traits e configuracao do Eloquent.
+- `Policy`: usar quando a autorizacao depender do model/contexto.
+
+Regra pratica:
+
+- se for apenas montagem de tela Backpack, fica no controller
+- se encostar no banco com regra nossa, vai para service/repository
+- se for CRUD simples sem regra propria, usar o que o Backpack ja entrega
+
+Base para novos repositories:
+
+```text
+app/Contracts/Repositories/BaseRepositoryInterface.php
+app/Repositories/BaseRepository.php
+```
+
+Exemplos ja aplicados:
+
+```text
+app/Contracts/Repositories/UserRepositoryInterface.php
+app/Repositories/UserRepository.php
+app/Services/UserService.php
+
+app/Contracts/Repositories/RoleRepositoryInterface.php
+app/Repositories/RoleRepository.php
+app/Services/RoleService.php
+
+app/Contracts/Repositories/PermissionRepositoryInterface.php
+app/Repositories/PermissionRepository.php
+app/Services/PermissionService.php
+```
 
 O list de usuarios mostra apenas:
 

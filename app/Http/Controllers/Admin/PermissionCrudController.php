@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Traits\HasCrudRoutePermissions;
+use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Http\Requests\PermissionStoreCrudRequest as StoreRequest;
@@ -19,6 +21,15 @@ class PermissionCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use HasCrudRoutePermissions;
+    use HasCrudUiPermissions;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->applyCrudRoutePermissions('permissions');
+    }
 
     public function setup()
     {
@@ -31,6 +42,8 @@ class PermissionCrudController extends CrudController
 
         CRUD::setCreateView('admin.permissions.form');
         CRUD::setEditView('admin.permissions.form');
+
+        $this->applyCrudUiPermissions('permissions');
 
         // deny access according to configuration file
         if (config('backpack.permissionmanager.allow_permission_create') == false) {
