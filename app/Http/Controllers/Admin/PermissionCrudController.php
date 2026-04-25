@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Http\Requests\PermissionStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\PermissionUpdateCrudRequest as UpdateRequest;
 use Spatie\Permission\PermissionRegistrar;
@@ -28,6 +29,9 @@ class PermissionCrudController extends CrudController
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.permission_singular'), trans('backpack::permissionmanager.permission_plural'));
         $this->crud->setRoute(backpack_url('permission'));
 
+        CRUD::setCreateView('admin.permissions.form');
+        CRUD::setEditView('admin.permissions.form');
+
         // deny access according to configuration file
         if (config('backpack.permissionmanager.allow_permission_create') == false) {
             $this->crud->denyAccess('create');
@@ -45,6 +49,12 @@ class PermissionCrudController extends CrudController
         $this->crud->addColumn([
             'name'  => 'name',
             'label' => trans('backpack::permissionmanager.name'),
+            'type'  => 'text',
+        ]);
+
+        $this->crud->addColumn([
+            'name'  => 'display_name',
+            'label' => 'Nome de exibição',
             'type'  => 'text',
         ]);
 
@@ -81,6 +91,21 @@ class PermissionCrudController extends CrudController
             'name'  => 'name',
             'label' => trans('backpack::permissionmanager.name'),
             'type'  => 'text',
+            'hint'  => implode("\n", [
+                'Padrão: resource.action (em inglês, usado no código).',
+                'Exemplos:',
+                '- processes.access',
+                '- processes.create',
+                '- processes.edit',
+                '- processes.delete',
+            ]),
+        ]);
+
+        $this->crud->addField([
+            'name'  => 'display_name',
+            'label' => 'Nome de exibição',
+            'type'  => 'text',
+            'hint'  => 'Use em português (nome amigável) que será exibido para os usuários no painel.',
         ]);
 
         if (config('backpack.permissionmanager.multiple_guards')) {

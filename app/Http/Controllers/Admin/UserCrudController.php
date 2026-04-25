@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +21,9 @@ class UserCrudController extends CrudController
         $this->crud->setModel(config('backpack.permissionmanager.models.user'));
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
         $this->crud->setRoute(backpack_url('user'));
+
+        CRUD::setCreateView('admin.users.form');
+        CRUD::setEditView('admin.users.form');
     }
 
     public function setupListOperation()
@@ -40,16 +44,8 @@ class UserCrudController extends CrudController
                 'type'      => 'select_multiple',
                 'name'      => 'roles', // the method that defines the relationship in your Model
                 'entity'    => 'roles', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'attribute' => 'display_name', // foreign key attribute that is shown to user
                 'model'     => config('permission.models.role'), // foreign key model
-            ],
-            [ // n-n relationship (with pivot table)
-                'label'     => trans('backpack::permissionmanager.extra_permissions'), // Table column heading
-                'type'      => 'select_multiple',
-                'name'      => 'permissions', // the method that defines the relationship in your Model
-                'entity'    => 'permissions', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model'     => config('permission.models.permission'), // foreign key model
             ],
         ]);
 
@@ -89,12 +85,14 @@ class UserCrudController extends CrudController
     public function setupCreateOperation()
     {
         $this->addUserFields();
+        $this->setupUserFormData();
         $this->crud->setValidation(StoreRequest::class);
     }
 
     public function setupUpdateOperation()
     {
         $this->addUserFields();
+        $this->setupUserFormData();
         $this->crud->setValidation(UpdateRequest::class);
     }
 
@@ -143,7 +141,10 @@ class UserCrudController extends CrudController
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation(); // validation has already been run
 
-        return $this->traitStore();
+        $response = $this->traitStore();
+        $this->syncRolesAndPermissions($this->crud->entry);
+
+        return $response;
     }
 
     /**
@@ -157,7 +158,10 @@ class UserCrudController extends CrudController
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation(); // validation has already been run
 
-        return $this->traitUpdate();
+        $response = $this->traitUpdate();
+        $this->syncRolesAndPermissions($this->crud->entry);
+
+        return $response;
     }
 
     /**
@@ -233,5 +237,48 @@ class UserCrudController extends CrudController
                 ],
             ],
         ]);
+    }
+
+    protected function setupUserFormData(): void
+    {
+        $roleModel = config('permission.models.role');
+        $permissionModel = config('permission.models.permission');
+        $logged = backpack_user();
+
+        $rolesQuery = $roleModel::query()
+            ->with('permissions:id,name,display_name')
+            ->orderBy('name');
+        if ($logged && method_exists($logged, 'hasRole') && ! $logged->hasRole('super')) {
+            $rolesQuery->where('name', '!=', 'super');
+        }
+
+        $permissionsQuery = $permissionModel::query()->orderBy('name');
+        if ($logged && method_exists($logged, 'hasRole') && ! $logged->hasRole('super')) {
+            $allowedPermissionIds = $logged->getAllPermissions()->pluck('id')->all();
+            $permissionsQuery->whereIn('id', $allowedPermissionIds);
+        }
+
+        $this->data['rolesList'] = $rolesQuery->get();
+        $this->data['permissionsList'] = $permissionsQuery->get();
+    }
+
+    protected function syncRolesAndPermissions($user): void
+    {
+        if (! $user) {
+            return;
+        }
+
+        $roleIds = collect($this->crud->getRequest()->input('roles', []))
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->all();
+
+        $permissionIds = collect($this->crud->getRequest()->input('permissions', []))
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->all();
+
+        $user->roles()->sync($roleIds);
+        $user->permissions()->sync($permissionIds);
     }
 }
