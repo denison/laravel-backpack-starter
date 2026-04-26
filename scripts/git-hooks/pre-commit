@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "Running Laravel Pint style check..."
+
+docker compose exec app-dev composer format:test

@@ -36,6 +36,7 @@ trait HasCrudListFilters
 
             if (($filter['query'] ?? null) instanceof \Closure) {
                 $filter['query']($this->crud, $value);
+
                 continue;
             }
 
@@ -44,11 +45,13 @@ trait HasCrudListFilters
 
             if (($filter['type'] ?? null) === 'date') {
                 $this->crud->addClause('whereDate', $column, $value);
+
                 continue;
             }
 
             if ($operator === 'like') {
                 $this->crud->addClause('where', $column, 'like', "%{$value}%");
+
                 continue;
             }
 

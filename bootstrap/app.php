@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Middleware\CheckPermissionFromRoute;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prologue\Alerts\Facades\Alert;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -16,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Laravel 12: aliases de middleware ficam aqui, no lugar do antigo app/Http/Kernel.php.
         $middleware->alias([
-            'check.permission' => \App\Http\Middleware\CheckPermissionFromRoute::class,
+            'check.permission' => CheckPermissionFromRoute::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

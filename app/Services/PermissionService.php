@@ -9,8 +9,7 @@ class PermissionService
 {
     public function __construct(
         private readonly PermissionRepositoryInterface $permissions
-    ) {
-    }
+    ) {}
 
     public function ordered(): Collection
     {

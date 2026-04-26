@@ -6,6 +6,10 @@ use App\Enums\CrudListIcon;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Http\Requests\PermissionStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\PermissionUpdateCrudRequest as UpdateRequest;
@@ -16,14 +20,15 @@ use Spatie\Permission\PermissionRegistrar;
 class PermissionCrudController extends CrudController
 {
     protected string $role_model;
+
     protected string $permission_model;
 
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use CreateOperation;
+    use DeleteOperation;
     use HasCrudRoutePermissions;
     use HasCrudUiPermissions;
+    use ListOperation;
+    use UpdateOperation;
 
     public function __construct()
     {
@@ -63,22 +68,22 @@ class PermissionCrudController extends CrudController
         $this->crud->set('list.icon', CrudListIcon::Permissions->value);
 
         $this->crud->addColumn([
-            'name'  => 'name',
+            'name' => 'name',
             'label' => trans('backpack::permissionmanager.name'),
-            'type'  => 'text',
+            'type' => 'text',
         ]);
 
         $this->crud->addColumn([
-            'name'  => 'display_name',
+            'name' => 'display_name',
             'label' => 'Nome de exibição',
-            'type'  => 'text',
+            'type' => 'text',
         ]);
 
         if (config('backpack.permissionmanager.multiple_guards')) {
             $this->crud->addColumn([
-                'name'  => 'guard_name',
+                'name' => 'guard_name',
                 'label' => trans('backpack::permissionmanager.guard_type'),
-                'type'  => 'text',
+                'type' => 'text',
             ]);
         }
     }
@@ -88,7 +93,7 @@ class PermissionCrudController extends CrudController
         $this->addFields();
         $this->crud->setValidation(StoreRequest::class);
 
-        //otherwise, changes won't have effect
+        // otherwise, changes won't have effect
         app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
@@ -97,17 +102,17 @@ class PermissionCrudController extends CrudController
         $this->addFields();
         $this->crud->setValidation(UpdateRequest::class);
 
-        //otherwise, changes won't have effect
+        // otherwise, changes won't have effect
         app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
     private function addFields()
     {
         $this->crud->addField([
-            'name'  => 'name',
+            'name' => 'name',
             'label' => trans('backpack::permissionmanager.name'),
-            'type'  => 'text',
-            'hint'  => implode("\n", [
+            'type' => 'text',
+            'hint' => implode("\n", [
                 'Padrão: resource.action (em inglês, usado no código).',
                 'Exemplos:',
                 '- processes.access',
@@ -118,17 +123,17 @@ class PermissionCrudController extends CrudController
         ]);
 
         $this->crud->addField([
-            'name'  => 'display_name',
+            'name' => 'display_name',
             'label' => 'Nome de exibição',
-            'type'  => 'text',
-            'hint'  => 'Use em português (nome amigável) que será exibido para os usuários no painel.',
+            'type' => 'text',
+            'hint' => 'Use em português (nome amigável) que será exibido para os usuários no painel.',
         ]);
 
         if (config('backpack.permissionmanager.multiple_guards')) {
             $this->crud->addField([
-                'name'    => 'guard_name',
-                'label'   => trans('backpack::permissionmanager.guard_type'),
-                'type'    => 'select_from_array',
+                'name' => 'guard_name',
+                'label' => trans('backpack::permissionmanager.guard_type'),
+                'type' => 'select_from_array',
                 'options' => $this->getGuardTypes(),
             ]);
         }

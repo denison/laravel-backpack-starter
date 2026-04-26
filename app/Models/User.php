@@ -14,7 +14,8 @@ class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use CrudTrait;
-    use HasFactory, Notifiable, HasRoles;
+
+    use HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.

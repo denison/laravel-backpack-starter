@@ -57,6 +57,45 @@ Quando Larastan estiver configurado:
 docker compose exec app-dev composer analyse
 ```
 
+## Git Hook de Pre-commit
+
+O projeto possui um hook versionado em:
+
+```text
+scripts/git-hooks/pre-commit
+```
+
+Esse hook roda antes do commit e verifica o padrao de codigo com Pint:
+
+```bash
+docker compose exec app-dev composer format:test
+```
+
+Para ativar na sua maquina:
+
+```bash
+cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+Depois disso, sempre que voce rodar:
+
+```bash
+git commit
+```
+
+o Git vai executar o hook. Se o Pint encontrar arquivos fora do padrao, o commit sera bloqueado.
+
+Para corrigir automaticamente:
+
+```bash
+docker compose exec app-dev composer format
+git add .
+git commit
+```
+
+Observacao: a pasta `.git/hooks` nao e versionada. Por isso o starter guarda o hook em `scripts/git-hooks/pre-commit` e cada ambiente precisa copiar esse arquivo uma vez.
+
 ## PHPStan / Larastan
 
 PHPStan faz analise estatica: ele le o codigo sem executar o sistema e aponta problemas como chamadas para metodos inexistentes, tipos errados, retornos invalidos e variaveis suspeitas.

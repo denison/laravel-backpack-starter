@@ -7,6 +7,10 @@ use App\Services\RoleService;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Http\Requests\RoleStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\RoleUpdateCrudRequest as UpdateRequest;
@@ -17,14 +21,15 @@ use Spatie\Permission\PermissionRegistrar;
 class RoleCrudController extends CrudController
 {
     protected string $role_model;
+
     protected string $permission_model;
 
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use CreateOperation { store as traitStore; }
+    use DeleteOperation;
     use HasCrudRoutePermissions;
     use HasCrudUiPermissions;
+    use ListOperation;
+    use UpdateOperation { update as traitUpdate; }
 
     public function __construct()
     {
@@ -67,15 +72,15 @@ class RoleCrudController extends CrudController
          * Show a column for the name of the role.
          */
         $this->crud->addColumn([
-            'name'  => 'name',
+            'name' => 'name',
             'label' => trans('backpack::permissionmanager.name'),
-            'type'  => 'text',
+            'type' => 'text',
         ]);
 
         $this->crud->addColumn([
-            'name'  => 'display_name',
+            'name' => 'display_name',
             'label' => 'Nome de exibição',
-            'type'  => 'text',
+            'type' => 'text',
         ]);
 
         /**
@@ -89,15 +94,15 @@ class RoleCrudController extends CrudController
          */
         $this->crud->query->withCount('users');
         $this->crud->addColumn([
-            'label'     => trans('backpack::permissionmanager.users'),
-            'type'      => 'text',
-            'name'      => 'users_count',
-            'wrapper'   => [
+            'label' => trans('backpack::permissionmanager.users'),
+            'type' => 'text',
+            'name' => 'users_count',
+            'wrapper' => [
                 'href' => function ($crud, $column, $entry, $related_key) {
                     return backpack_url('user?role='.$entry->getKey());
                 },
             ],
-            'suffix'    => ' '.strtolower(trans('backpack::permissionmanager.users')),
+            'suffix' => ' '.strtolower(trans('backpack::permissionmanager.users')),
         ]);
 
         /**
@@ -105,9 +110,9 @@ class RoleCrudController extends CrudController
          */
         if (config('backpack.permissionmanager.multiple_guards')) {
             $this->crud->addColumn([
-                'name'  => 'guard_name',
+                'name' => 'guard_name',
                 'label' => trans('backpack::permissionmanager.guard_type'),
-                'type'  => 'text',
+                'type' => 'text',
             ]);
         }
 
@@ -119,7 +124,7 @@ class RoleCrudController extends CrudController
         $this->setupRoleFormData();
         $this->crud->setValidation(StoreRequest::class);
 
-        //otherwise, changes won't have effect
+        // otherwise, changes won't have effect
         app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
@@ -129,7 +134,7 @@ class RoleCrudController extends CrudController
         $this->setupRoleFormData();
         $this->crud->setValidation(UpdateRequest::class);
 
-        //otherwise, changes won't have effect
+        // otherwise, changes won't have effect
         app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
@@ -168,24 +173,24 @@ class RoleCrudController extends CrudController
     private function addFields()
     {
         $this->crud->addField([
-            'name'  => 'name',
+            'name' => 'name',
             'label' => trans('backpack::permissionmanager.name'),
-            'type'  => 'text',
-            'hint'  => 'Use em inglês (identificador técnico) para manter o padrão do sistema. Ex.: "process_manager".',
+            'type' => 'text',
+            'hint' => 'Use em inglês (identificador técnico) para manter o padrão do sistema. Ex.: "process_manager".',
         ]);
 
         $this->crud->addField([
-            'name'  => 'display_name',
+            'name' => 'display_name',
             'label' => 'Nome de exibição',
-            'type'  => 'text',
-            'hint'  => 'Use em português (nome amigável) que será exibido para os usuários no painel. Ex.: "Gerente de Processos".',
+            'type' => 'text',
+            'hint' => 'Use em português (nome amigável) que será exibido para os usuários no painel. Ex.: "Gerente de Processos".',
         ]);
 
         if (config('backpack.permissionmanager.multiple_guards')) {
             $this->crud->addField([
-                'name'    => 'guard_name',
-                'label'   => trans('backpack::permissionmanager.guard_type'),
-                'type'    => 'select_from_array',
+                'name' => 'guard_name',
+                'label' => trans('backpack::permissionmanager.guard_type'),
+                'type' => 'select_from_array',
                 'options' => $this->getGuardTypes(),
             ]);
         }

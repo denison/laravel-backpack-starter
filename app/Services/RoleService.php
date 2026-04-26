@@ -9,8 +9,7 @@ class RoleService
 {
     public function __construct(
         private readonly RoleRepositoryInterface $roles
-    ) {
-    }
+    ) {}
 
     public function permissionsForForm(): Collection
     {

@@ -10,8 +10,7 @@ class UserService
 {
     public function __construct(
         private readonly UserRepositoryInterface $users
-    ) {
-    }
+    ) {}
 
     public function formData(?object $loggedUser): array
     {
