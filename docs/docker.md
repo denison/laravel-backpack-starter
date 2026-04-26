@@ -50,6 +50,19 @@ redis
 
 ## Comandos
 
+Atalhos com Makefile:
+
+```bash
+make up
+make build
+make down
+make shell
+make migrate
+make seed
+make cache-clear
+make basset-cache
+```
+
 Subir o ambiente:
 
 ```bash

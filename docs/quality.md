@@ -51,6 +51,24 @@ docker compose exec -T app-dev composer format:test
 docker compose exec app-dev composer test
 ```
 
+Atalhos com Makefile:
+
+```bash
+make pint
+make pint-test
+make analyse
+make test
+make check
+```
+
+O `make check` roda, em sequencia:
+
+```bash
+composer format:test
+composer analyse
+composer test
+```
+
 Quando Larastan estiver configurado:
 
 ```bash

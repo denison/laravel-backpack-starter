@@ -9,8 +9,15 @@
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Light Theme / Default
+|--------------------------------------------------------------------------
+*/
+
 :root {
-    --tblr-bg-surface: #221e26;
+    --tblr-bg-surface: #ffffff;
+
     --starter-card: #ffffff;
     --starter-card-soft: #fbfcff;
     --starter-ink: #111827;
@@ -42,6 +49,7 @@
     --starter-system-primary-text: #322a60;
     --starter-system-primary-soft: #f3efff;
     --starter-system-primary-line: #e3d9ff;
+
     --starter-overlap-bg: var(--starter-system-primary);
     --starter-overlap-text: #f8fafc;
     --starter-overlap-muted: #e3d9ff;
@@ -86,16 +94,25 @@
     --tblr-tabler: var(--starter-system-primary);
     --tblr-primary-rgb: var(--starter-system-primary-rgb);
     --tblr-tabler-rgb: var(--starter-system-primary-rgb);
+
     --tblr-link-color: var(--starter-system-primary);
     --tblr-link-color-rgb: var(--starter-system-primary-rgb);
     --tblr-link-hover-color: var(--starter-accent-text);
     --tblr-link-hover-color-rgb: 91, 63, 240;
+
     --tblr-primary-text-emphasis: var(--starter-system-primary-text);
     --tblr-primary-bg-subtle: var(--starter-system-primary-soft);
     --tblr-primary-border-subtle: var(--starter-system-primary-line);
+
     --tblr-focus-ring-color: var(--starter-accent-focus);
     --bg-switch-checked-color: var(--starter-system-primary);
 }
+
+/*
+|--------------------------------------------------------------------------
+| Dark Theme
+|--------------------------------------------------------------------------
+*/
 
 html[data-bs-theme="dark"],
 html[data-theme="dark"],
@@ -105,6 +122,8 @@ body[data-theme="dark"],
 body.theme-dark,
 body.dark,
 body.dark-mode {
+    --tblr-bg-surface: #221e26;
+
     --starter-card: #1f1b25;
     --starter-card-soft: #241f2b;
     --starter-ink: #f7f4ff;
@@ -136,6 +155,7 @@ body.dark-mode {
     --starter-system-primary-text: #d8ccff;
     --starter-system-primary-soft: rgba(139, 108, 255, .16);
     --starter-system-primary-line: rgba(139, 108, 255, .30);
+
     --starter-overlap-bg: #1f1b25;
     --starter-overlap-text: #f7f4ff;
     --starter-overlap-muted: #c9c0d8;
@@ -179,16 +199,25 @@ body.dark-mode {
     --tblr-tabler: var(--starter-system-primary);
     --tblr-primary-rgb: var(--starter-system-primary-rgb);
     --tblr-tabler-rgb: var(--starter-system-primary-rgb);
+
     --tblr-link-color: var(--starter-system-primary-text);
     --tblr-link-color-rgb: 216, 204, 255;
     --tblr-link-hover-color: #efeaff;
     --tblr-link-hover-color-rgb: 239, 234, 255;
+
     --tblr-primary-text-emphasis: var(--starter-system-primary-text);
     --tblr-primary-bg-subtle: var(--starter-system-primary-soft);
     --tblr-primary-border-subtle: var(--starter-system-primary-line);
+
     --tblr-focus-ring-color: var(--starter-accent-focus);
     --bg-switch-checked-color: var(--starter-system-primary);
 }
+
+/*
+|--------------------------------------------------------------------------
+| Horizontal Overlap Fixes
+|--------------------------------------------------------------------------
+*/
 
 body[bp-layout=horizontal-overlap] .header-operation,
 body[bp-layout=horizontal-overlap] .breadcrumb .active,
@@ -200,12 +229,24 @@ body[bp-layout=horizontal-overlap] .nav-item > a {
     color: var(--starter-overlap-muted);
 }
 
+/*
+|--------------------------------------------------------------------------
+| Light Specific Component Fixes
+|--------------------------------------------------------------------------
+*/
+
 body:not([data-bs-theme="dark"]):not([data-theme="dark"]):not(.theme-dark):not(.dark):not(.dark-mode) .starter-dashboard-card,
 [data-bs-theme="light"] .starter-dashboard-card,
 [data-theme="light"] .starter-dashboard-card {
     --tblr-card-bg: var(--starter-input);
     background-color: var(--starter-input);
 }
+
+/*
+|--------------------------------------------------------------------------
+| Component Aliases
+|--------------------------------------------------------------------------
+*/
 
 .premium-list,
 .modern-show {

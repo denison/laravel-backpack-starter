@@ -81,6 +81,7 @@ http://localhost:8989/admin
 - [Qualidade de codigo](docs/quality.md)
 - [Activitylog e auditoria](docs/activitylog.md)
 - [Backups](docs/backup.md)
+- [Realtime com Reverb](docs/realtime.md)
 
 ## Comandos Uteis
 
