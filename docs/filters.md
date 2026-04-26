@@ -42,6 +42,15 @@ select
 date
 ```
 
+O tipo `date` usa o Flatpickr global do sistema com tema Airbnb, configurado em:
+
+```text
+resources/views/vendor/backpack/ui/inc/styles.blade.php
+resources/views/vendor/backpack/ui/inc/scripts.blade.php
+```
+
+O input e renderizado com `data-flatpickr`, formato visual `d/m/Y` e valor enviado como `Y-m-d`.
+
 ## Comportamento
 
 O `list.blade.php` global renderiza a barra de filtros automaticamente quando o CRUD declara filtros com `addCrudListFilter()`.

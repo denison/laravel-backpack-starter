@@ -5,6 +5,7 @@ Projeto base para novos sistemas com Laravel 12, Backpack 7, Docker, Redis, Hori
 ## Stack
 
 - Laravel 12
+- PHP 8.4
 - Backpack 7
 - Tema Backpack Tabler
 - Layout `horizontal_overlap`
@@ -73,10 +74,13 @@ http://localhost:8989/admin
 - [Docker e ambiente local](docs/docker.md)
 - [Arquitetura do projeto](docs/architecture.md)
 - [Backpack e CRUDs](docs/backpack.md)
+- [Padrao para criar CRUD](docs/crud-pattern.md)
 - [Filtros customizados](docs/filters.md)
 - [Permissoes](docs/permissions.md)
 - [Uploads e Media Library](docs/media-library.md)
 - [Qualidade de codigo](docs/quality.md)
+- [Activitylog e auditoria](docs/activitylog.md)
+- [Backups](docs/backup.md)
 
 ## Comandos Uteis
 

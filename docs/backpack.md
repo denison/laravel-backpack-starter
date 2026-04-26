@@ -2,6 +2,12 @@
 
 Este starter usa Backpack 7 com tema Tabler, layout `horizontal_overlap` e skin `backpack-color-palette`.
 
+Para o passo a passo de criacao de novos CRUDs, veja:
+
+```text
+docs/crud-pattern.md
+```
+
 ## Basset
 
 O Backpack usa o Basset para servir os assets do painel admin. Ele salva os arquivos em:

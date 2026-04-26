@@ -94,12 +94,17 @@
                                         @else
                                             <input
                                                 id="filter_{{ $filterName }}"
-                                                type="{{ $filterType === 'date' ? 'date' : 'text' }}"
+                                                type="text"
                                                 name="filters[{{ $filterName }}]"
                                                 value="{{ $filterValue }}"
                                                 class="form-control premium-filter-input"
                                                 placeholder="{{ $filter['placeholder'] ?? $filterLabel }}"
                                                 autocomplete="off"
+                                                @if ($filterType === 'date')
+                                                    data-flatpickr
+                                                    data-alt-format="d/m/Y"
+                                                    data-date-format="Y-m-d"
+                                                @endif
                                             >
                                         @endif
                                     </div>
@@ -393,8 +398,8 @@
                 });
 
             $form
-                .off('change.premiumFilterDate', '.premium-filter-input[type="date"]')
-                .on('change.premiumFilterDate', '.premium-filter-input[type="date"]', function () {
+                .off('change.premiumFilterDate', '.premium-filter-input[data-flatpickr]')
+                .on('change.premiumFilterDate', '.premium-filter-input[data-flatpickr]', function () {
                     applyFilters();
                 });
 

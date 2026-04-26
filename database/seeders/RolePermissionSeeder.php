@@ -26,6 +26,7 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'users.create', 'display_name' => 'Criar Usuário'],
             ['name' => 'users.edit', 'display_name' => 'Editar Usuário'],
             ['name' => 'users.delete', 'display_name' => 'Deletar Usuário'],
+            ['name' => 'activity_logs.access', 'display_name' => 'Acessar logs de atividade'],
         ];
 
         foreach ($permissions as $permission) {
@@ -52,6 +53,7 @@ class RolePermissionSeeder extends Seeder
             'users.create',
             'users.edit',
             'users.delete',
+            'activity_logs.access',
         ]);
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();

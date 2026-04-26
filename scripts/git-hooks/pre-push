@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "Running Larastan static analysis..."
+docker compose exec -T app-dev composer analyse
+
+echo ""
+echo "Running Laravel test suite..."
+docker compose exec -T app-dev composer test
+
+echo ""
+echo "Pre-push checks passed."

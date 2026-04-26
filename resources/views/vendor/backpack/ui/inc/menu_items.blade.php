@@ -28,3 +28,11 @@
         </div>
     </li>
 @endif
+
+@if (backpack_user()?->can('activity_logs.access'))
+    <li class="nav-item">
+        <a class="nav-link" href="{{ backpack_url('activity-log') }}">
+            <i class="la la-history nav-icon"></i> <span>Auditoria</span>
+        </a>
+    </li>
+@endif

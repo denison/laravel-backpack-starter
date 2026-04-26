@@ -2,6 +2,26 @@
 
 Este projeto deve ser usado via Docker. Nada precisa ser instalado fora do container.
 
+Imagem PHP base:
+
+```text
+php:8.4-fpm
+```
+
+Extensoes PHP relevantes:
+
+```text
+pdo_mysql
+mbstring
+exif
+pcntl
+bcmath
+gd
+sockets
+zip
+redis
+```
+
 ## Enderecos
 
 Ambiente local:

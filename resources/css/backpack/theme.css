@@ -10,6 +10,7 @@
 */
 
 :root {
+    --tblr-bg-surface: #221e26;
     --starter-card: #ffffff;
     --starter-card-soft: #fbfcff;
     --starter-ink: #111827;
@@ -36,7 +37,7 @@
     --starter-accent-shadow: rgba(109, 77, 242, .24);
     --starter-accent-shadow-strong: rgba(109, 77, 242, .30);
 
-    --starter-system-primary: #221e26;
+    --starter-system-primary: #6d4df2;
     --starter-system-primary-rgb: 109, 77, 242;
     --starter-system-primary-text: #322a60;
     --starter-system-primary-soft: #f3efff;
@@ -189,11 +190,6 @@ body.dark-mode {
     --bg-switch-checked-color: var(--starter-system-primary);
 }
 
-body[bp-layout=horizontal-overlap] .navbar-overlap,
-body[bp-layout=horizontal-overlap] .navbar-overlap:after {
-    background: var(--starter-overlap-bg) !important;
-}
-
 body[bp-layout=horizontal-overlap] .header-operation,
 body[bp-layout=horizontal-overlap] .breadcrumb .active,
 body[bp-layout=horizontal-overlap] .navbar-filters .navbar-nav .nav-link {
@@ -202,6 +198,13 @@ body[bp-layout=horizontal-overlap] .navbar-filters .navbar-nav .nav-link {
 
 body[bp-layout=horizontal-overlap] .nav-item > a {
     color: var(--starter-overlap-muted);
+}
+
+body:not([data-bs-theme="dark"]):not([data-theme="dark"]):not(.theme-dark):not(.dark):not(.dark-mode) .starter-dashboard-card,
+[data-bs-theme="light"] .starter-dashboard-card,
+[data-theme="light"] .starter-dashboard-card {
+    --tblr-card-bg: var(--starter-input);
+    background-color: var(--starter-input);
 }
 
 .premium-list,

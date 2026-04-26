@@ -10,17 +10,20 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
+        $super = config('starter.seed.super');
+        $admin = config('starter.seed.admin');
+
         $this->createUserWithRole(
-            name: env('SEED_SUPER_NAME', 'Super Admin'),
-            email: env('SEED_SUPER_EMAIL', 'super@example.com'),
-            password: env('SEED_SUPER_PASSWORD', 'password'),
+            name: $super['name'],
+            email: $super['email'],
+            password: $super['password'],
             role: 'super',
         );
 
         $this->createUserWithRole(
-            name: env('SEED_ADMIN_NAME', 'Admin'),
-            email: env('SEED_ADMIN_EMAIL', 'admin@example.com'),
-            password: env('SEED_ADMIN_PASSWORD', 'password'),
+            name: $admin['name'],
+            email: $admin['email'],
+            password: $admin['password'],
             role: 'admin',
         );
     }

@@ -25,6 +25,12 @@ Usuarios iniciais sao criados pelo seeder:
 database/seeders/AdminUserSeeder.php
 ```
 
+As variaveis de ambiente sao lidas em:
+
+```text
+config/starter.php
+```
+
 Variaveis do `.env`:
 
 ```env

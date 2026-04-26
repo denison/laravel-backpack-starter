@@ -57,6 +57,30 @@ Quando Larastan estiver configurado:
 docker compose exec app-dev composer analyse
 ```
 
+## Rodando Larastan
+
+O arquivo de configuracao fica em:
+
+```text
+phpstan.neon
+```
+
+O starter comeca no nivel `1` para pegar erros simples sem travar a evolucao inicial do projeto.
+
+Rodar analise estatica:
+
+```bash
+docker compose exec app-dev composer analyse
+```
+
+Se quiser ver mais detalhes diretamente:
+
+```bash
+docker compose exec app-dev ./vendor/bin/phpstan analyse --memory-limit=512M
+```
+
+O limite de memoria no comando evita falhas em projetos Laravel maiores, onde o PHPStan/Larastan precisa carregar bastante contexto do framework e dos pacotes.
+
 ## Git Hook de Pre-commit
 
 O projeto possui um hook versionado em:
@@ -94,6 +118,36 @@ git commit
 ```
 
 Observacao: a pasta `.git/hooks` nao e versionada. Por isso o starter guarda o hook em `scripts/git-hooks/pre-commit` e cada ambiente precisa copiar esse arquivo uma vez.
+
+## Git Hook de Pre-push
+
+O projeto tambem possui um hook versionado em:
+
+```text
+scripts/git-hooks/pre-push
+```
+
+Esse hook roda antes do push e executa validacoes mais pesadas:
+
+```bash
+docker compose exec -T app-dev composer analyse
+docker compose exec -T app-dev composer test
+```
+
+Para ativar na sua maquina:
+
+```bash
+cp scripts/git-hooks/pre-push .git/hooks/pre-push
+chmod +x .git/hooks/pre-push
+```
+
+Depois disso, sempre que voce rodar:
+
+```bash
+git push
+```
+
+o Git vai executar a analise estatica e os testes. Se algum comando falhar, o push sera bloqueado.
 
 ## PHPStan / Larastan
 

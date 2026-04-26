@@ -89,7 +89,10 @@
                 altFormat: el.dataset.altFormat || 'd/m/Y',
                 dateFormat: el.dataset.dateFormat || 'Y-m-d',
                 enableTime: false,
-                allowInput: true
+                allowInput: true,
+                onChange: function() {
+                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                }
             });
         });
 
