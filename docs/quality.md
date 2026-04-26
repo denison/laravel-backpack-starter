@@ -47,7 +47,7 @@ Os scripts recomendados para o dia a dia sao:
 
 ```bash
 docker compose exec app-dev composer format
-docker compose exec app-dev composer format:test
+docker compose exec -T app-dev composer format:test
 docker compose exec app-dev composer test
 ```
 
@@ -65,10 +65,10 @@ O projeto possui um hook versionado em:
 scripts/git-hooks/pre-commit
 ```
 
-Esse hook roda antes do commit e verifica o padrao de codigo com Pint:
+Esse hook roda antes do commit e formata o codigo com Pint:
 
 ```bash
-docker compose exec app-dev composer format:test
+docker compose exec -T app-dev composer format
 ```
 
 Para ativar na sua maquina:
@@ -84,12 +84,11 @@ Depois disso, sempre que voce rodar:
 git commit
 ```
 
-o Git vai executar o hook. Se o Pint encontrar arquivos fora do padrao, o commit sera bloqueado.
+o Git vai executar o hook. Se o Pint encontrar arquivos fora do padrao, ele vai autoformatar os arquivos e bloquear o commit para voce revisar as mudancas.
 
-Para corrigir automaticamente:
+Depois de revisar, adicione os arquivos formatados e tente o commit novamente:
 
 ```bash
-docker compose exec app-dev composer format
 git add .
 git commit
 ```
