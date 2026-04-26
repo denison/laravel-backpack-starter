@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CrudListIcon;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -59,6 +60,8 @@ class PermissionCrudController extends CrudController
 
     public function setupListOperation()
     {
+        $this->crud->set('list.icon', CrudListIcon::Permissions->value);
+
         $this->crud->addColumn([
             'name'  => 'name',
             'label' => trans('backpack::permissionmanager.name'),

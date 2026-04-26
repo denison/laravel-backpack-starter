@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CrudListIcon;
 use App\Services\UserService;
+use App\Traits\HasCrudListFilters;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -17,6 +19,7 @@ class UserCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use HasCrudListFilters;
     use HasCrudRoutePermissions;
     use HasCrudUiPermissions;
 
@@ -36,11 +39,15 @@ class UserCrudController extends CrudController
         CRUD::setCreateView('admin.users.form');
         CRUD::setEditView('admin.users.form');
 
+        $this->applyUserVisibilityScope();
         $this->applyCrudUiPermissions('users');
     }
 
     public function setupListOperation()
     {
+        $this->crud->set('list.icon', CrudListIcon::Users->value);
+        $this->setupUserListFilters();
+
         $this->crud->addColumns([
             [
                 'name'  => 'name',
@@ -54,11 +61,18 @@ class UserCrudController extends CrudController
             ],
             [ // n-n relationship (with pivot table)
                 'label'     => trans('backpack::permissionmanager.roles'), // Table column heading
-                'type'      => 'select_multiple',
+                'type'      => 'closure',
                 'name'      => 'roles', // the method that defines the relationship in your Model
-                'entity'    => 'roles', // the method that defines the relationship in your Model
-                'attribute' => 'display_name', // foreign key attribute that is shown to user
-                'model'     => config('permission.models.role'), // foreign key model
+                'function'  => function ($entry) {
+                    return $entry->roles
+                        ->map(function ($role) {
+                            $label = e($role->display_name ?: $role->name);
+
+                            return '<span class="badge bg-primary-subtle text-primary border border-primary-subtle d-inline-flex align-items-center gap-1 px-2 py-1"><i class="la la-users"></i>'.$label.'</span>';
+                        })
+                        ->implode(' ');
+                },
+                'escaped'   => false,
             ],
         ]);
 
@@ -93,6 +107,8 @@ class UserCrudController extends CrudController
                 }
             );
         }
+
+        $this->applyCrudListFilters();
     }
 
     public function setupCreateOperation()
@@ -244,6 +260,47 @@ class UserCrudController extends CrudController
     {
         foreach ($this->userService()->formData(backpack_user()) as $key => $value) {
             $this->data[$key] = $value;
+        }
+    }
+
+    protected function setupUserListFilters(): void
+    {
+        $roles = $this->userService()
+            ->formData(backpack_user())['rolesList']
+            ->mapWithKeys(fn ($role) => [$role->id => $role->display_name ?: $role->name])
+            ->all();
+
+        $this->addCrudListFilter([
+            'name' => 'role',
+            'label' => 'Grupo',
+            'type' => 'select',
+            'options' => $roles,
+            'query' => function ($crud, $value) {
+                $crud->addClause('whereHas', 'roles', function ($query) use ($value) {
+                    $query->where('roles.id', $value);
+                });
+            },
+        ]);
+
+        $this->addCrudListFilter([
+            'name' => 'email',
+            'label' => 'E-mail',
+            'type' => 'text',
+            'placeholder' => 'Buscar por e-mail',
+            'query' => function ($crud, $value) {
+                $crud->addClause('where', 'email', 'like', "%{$value}%");
+            },
+        ]);
+    }
+
+    protected function applyUserVisibilityScope(): void
+    {
+        $user = backpack_user();
+
+        if ($user && method_exists($user, 'hasRole') && ! $user->hasRole('super')) {
+            $this->crud->addBaseClause('whereDoesntHave', 'roles', function ($query) {
+                $query->where('name', 'super');
+            });
         }
     }
 

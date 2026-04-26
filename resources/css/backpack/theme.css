@@ -1,0 +1,250 @@
+/*
+|--------------------------------------------------------------------------
+| Starter Admin Theme Tokens
+|--------------------------------------------------------------------------
+|
+| Edite cores, sombras e estados visuais do painel neste arquivo.
+| Os CSSs de componentes devem consumir estas variaveis em vez de declarar
+| cores proprias espalhadas pelas views.
+|
+*/
+
+:root {
+    --starter-card: #ffffff;
+    --starter-card-soft: #fbfcff;
+    --starter-ink: #111827;
+    --starter-muted: #667085;
+    --starter-muted-soft: #98a2b3;
+
+    --starter-line: #e5e7eb;
+    --starter-line-soft: #edf1f7;
+
+    --starter-input: #ffffff;
+    --starter-input-text: #111827;
+    --starter-placeholder: #98a2b3;
+
+    --starter-table-head: #ffffff;
+    --starter-table-row: #ffffff;
+    --starter-table-row-hover: #fbfaff;
+
+    --starter-accent: #6d4df2;
+    --starter-accent-2: #7c5cff;
+    --starter-accent-soft: #f3efff;
+    --starter-accent-line: #e3d9ff;
+    --starter-accent-text: #5b3ff0;
+    --starter-accent-focus: rgba(124, 92, 255, .14);
+    --starter-accent-shadow: rgba(109, 77, 242, .24);
+    --starter-accent-shadow-strong: rgba(109, 77, 242, .30);
+
+    --starter-system-primary: #221e26;
+    --starter-system-primary-rgb: 109, 77, 242;
+    --starter-system-primary-text: #322a60;
+    --starter-system-primary-soft: #f3efff;
+    --starter-system-primary-line: #e3d9ff;
+    --starter-overlap-bg: var(--starter-system-primary);
+    --starter-overlap-text: #f8fafc;
+    --starter-overlap-muted: #e3d9ff;
+
+    --starter-primary: #2563eb;
+    --starter-primary-2: #3b82f6;
+
+    --starter-danger: #ef4444;
+    --starter-danger-2: #ff5c68;
+    --starter-danger-soft: #fff1f2;
+    --starter-danger-line: #fee2e2;
+    --starter-danger-text: #b42318;
+
+    --starter-success: #16a34a;
+    --starter-success-soft: #dcfce7;
+    --starter-success-line: #bbf7d0;
+    --starter-success-text: #15803d;
+
+    --starter-warning: #b54708;
+    --starter-warning-soft: #fffaeb;
+    --starter-warning-line: #fedf89;
+
+    --starter-chip-soft: #f3efff;
+    --starter-chip-line: #e2d9ff;
+    --starter-role-text: #334155;
+    --starter-role-soft: #f8fafc;
+    --starter-role-line: #e2e8f0;
+
+    --starter-avatar-start: #ffffff;
+    --starter-avatar-mid: #f4f1ff;
+    --starter-avatar-end: #ede7ff;
+
+    --starter-on-accent: #ffffff;
+    --starter-shadow: 0 22px 60px rgba(15, 23, 42, .10);
+    --starter-shadow-soft: 0 10px 24px rgba(15, 23, 42, .06);
+    --starter-show-shadow: 0 18px 45px rgba(15, 23, 42, .08);
+    --starter-button-shadow: 0 10px 22px rgba(15, 23, 42, .08);
+    --starter-inset-line: rgba(98, 70, 234, .06);
+    --starter-inset-highlight: rgba(255, 255, 255, .65);
+
+    --tblr-primary: var(--starter-system-primary);
+    --tblr-tabler: var(--starter-system-primary);
+    --tblr-primary-rgb: var(--starter-system-primary-rgb);
+    --tblr-tabler-rgb: var(--starter-system-primary-rgb);
+    --tblr-link-color: var(--starter-system-primary);
+    --tblr-link-color-rgb: var(--starter-system-primary-rgb);
+    --tblr-link-hover-color: var(--starter-accent-text);
+    --tblr-link-hover-color-rgb: 91, 63, 240;
+    --tblr-primary-text-emphasis: var(--starter-system-primary-text);
+    --tblr-primary-bg-subtle: var(--starter-system-primary-soft);
+    --tblr-primary-border-subtle: var(--starter-system-primary-line);
+    --tblr-focus-ring-color: var(--starter-accent-focus);
+    --bg-switch-checked-color: var(--starter-system-primary);
+}
+
+html[data-bs-theme="dark"],
+html[data-theme="dark"],
+html.dark,
+body[data-bs-theme="dark"],
+body[data-theme="dark"],
+body.theme-dark,
+body.dark,
+body.dark-mode {
+    --starter-card: #1f1b25;
+    --starter-card-soft: #241f2b;
+    --starter-ink: #f7f4ff;
+    --starter-muted: #c9c0d8;
+    --starter-muted-soft: #a79bb8;
+
+    --starter-line: #3a3345;
+    --starter-line-soft: #302a39;
+
+    --starter-input: #241f2b;
+    --starter-input-text: #f7f4ff;
+    --starter-placeholder: #a79bb8;
+
+    --starter-table-head: #1f1b25;
+    --starter-table-row: #1f1b25;
+    --starter-table-row-hover: #27212f;
+
+    --starter-accent: #8b6cff;
+    --starter-accent-2: #a78bfa;
+    --starter-accent-soft: rgba(139, 108, 255, .16);
+    --starter-accent-line: rgba(139, 108, 255, .30);
+    --starter-accent-text: #a78bfa;
+    --starter-accent-focus: rgba(139, 108, 255, .20);
+    --starter-accent-shadow: rgba(139, 108, 255, .20);
+    --starter-accent-shadow-strong: rgba(139, 108, 255, .28);
+
+    --starter-system-primary: #8b6cff;
+    --starter-system-primary-rgb: 139, 108, 255;
+    --starter-system-primary-text: #d8ccff;
+    --starter-system-primary-soft: rgba(139, 108, 255, .16);
+    --starter-system-primary-line: rgba(139, 108, 255, .30);
+    --starter-overlap-bg: #1f1b25;
+    --starter-overlap-text: #f7f4ff;
+    --starter-overlap-muted: #c9c0d8;
+
+    --starter-primary: #60a5fa;
+    --starter-primary-2: #93c5fd;
+
+    --starter-danger: #ff6b7a;
+    --starter-danger-2: #fb7185;
+    --starter-danger-soft: rgba(239, 68, 68, .14);
+    --starter-danger-line: rgba(239, 68, 68, .28);
+    --starter-danger-text: #fda4af;
+
+    --starter-success: #4ade80;
+    --starter-success-soft: rgba(22, 163, 74, .16);
+    --starter-success-line: rgba(22, 163, 74, .28);
+    --starter-success-text: #86efac;
+
+    --starter-warning: #fdb022;
+    --starter-warning-soft: rgba(253, 176, 34, .14);
+    --starter-warning-line: rgba(253, 176, 34, .28);
+
+    --starter-chip-soft: rgba(139, 108, 255, .16);
+    --starter-chip-line: rgba(139, 108, 255, .30);
+    --starter-role-text: #e5e7eb;
+    --starter-role-soft: #27212f;
+    --starter-role-line: #3a3345;
+
+    --starter-avatar-start: #342d40;
+    --starter-avatar-mid: #2b2534;
+    --starter-avatar-end: #241f2b;
+
+    --starter-shadow: 0 24px 70px rgba(0, 0, 0, .38);
+    --starter-shadow-soft: 0 12px 30px rgba(0, 0, 0, .24);
+    --starter-show-shadow: 0 18px 45px rgba(0, 0, 0, .32);
+    --starter-button-shadow: 0 10px 22px rgba(0, 0, 0, .22);
+    --starter-inset-line: rgba(139, 108, 255, .12);
+    --starter-inset-highlight: rgba(255, 255, 255, .08);
+
+    --tblr-primary: var(--starter-system-primary);
+    --tblr-tabler: var(--starter-system-primary);
+    --tblr-primary-rgb: var(--starter-system-primary-rgb);
+    --tblr-tabler-rgb: var(--starter-system-primary-rgb);
+    --tblr-link-color: var(--starter-system-primary-text);
+    --tblr-link-color-rgb: 216, 204, 255;
+    --tblr-link-hover-color: #efeaff;
+    --tblr-link-hover-color-rgb: 239, 234, 255;
+    --tblr-primary-text-emphasis: var(--starter-system-primary-text);
+    --tblr-primary-bg-subtle: var(--starter-system-primary-soft);
+    --tblr-primary-border-subtle: var(--starter-system-primary-line);
+    --tblr-focus-ring-color: var(--starter-accent-focus);
+    --bg-switch-checked-color: var(--starter-system-primary);
+}
+
+body[bp-layout=horizontal-overlap] .navbar-overlap,
+body[bp-layout=horizontal-overlap] .navbar-overlap:after {
+    background: var(--starter-overlap-bg) !important;
+}
+
+body[bp-layout=horizontal-overlap] .header-operation,
+body[bp-layout=horizontal-overlap] .breadcrumb .active,
+body[bp-layout=horizontal-overlap] .navbar-filters .navbar-nav .nav-link {
+    color: var(--starter-overlap-text);
+}
+
+body[bp-layout=horizontal-overlap] .nav-item > a {
+    color: var(--starter-overlap-muted);
+}
+
+.premium-list,
+.modern-show {
+    --pl-card: var(--starter-card);
+    --pl-card-soft: var(--starter-card-soft);
+    --pl-ink: var(--starter-ink);
+    --pl-muted: var(--starter-muted);
+    --pl-muted-soft: var(--starter-muted-soft);
+    --pl-line: var(--starter-line);
+    --pl-line-soft: var(--starter-line-soft);
+    --pl-input: var(--starter-input);
+    --pl-input-text: var(--starter-input-text);
+    --pl-placeholder: var(--starter-placeholder);
+    --pl-table-head: var(--starter-table-head);
+    --pl-table-row: var(--starter-table-row);
+    --pl-table-row-hover: var(--starter-table-row-hover);
+    --pl-accent: var(--starter-accent);
+    --pl-accent-2: var(--starter-accent-2);
+    --pl-accent-soft: var(--starter-accent-soft);
+    --pl-accent-line: var(--starter-accent-line);
+    --pl-accent-text: var(--starter-accent-text);
+    --pl-danger: var(--starter-danger);
+    --pl-danger-soft: var(--starter-danger-soft);
+    --pl-danger-line: var(--starter-danger-line);
+    --pl-success: var(--starter-success);
+    --pl-success-soft: var(--starter-success-soft);
+    --pl-success-line: var(--starter-success-line);
+    --pl-warning: var(--starter-warning);
+    --pl-warning-soft: var(--starter-warning-soft);
+    --pl-warning-line: var(--starter-warning-line);
+    --pl-shadow: var(--starter-shadow);
+    --pl-shadow-soft: var(--starter-shadow-soft);
+
+    --ms-card: var(--starter-card);
+    --ms-ink: var(--starter-ink);
+    --ms-muted: var(--starter-muted);
+    --ms-line: var(--starter-line);
+    --ms-soft: var(--starter-accent-soft);
+    --ms-accent: var(--starter-accent);
+    --ms-accent-2: var(--starter-accent-2);
+    --ms-danger: var(--starter-danger);
+    --ms-success: var(--starter-success);
+    --ms-shadow: var(--starter-show-shadow);
+    --ms-shadow-soft: var(--starter-shadow-soft);
+}

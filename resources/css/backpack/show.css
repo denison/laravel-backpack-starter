@@ -1,0 +1,456 @@
+.modern-show {
+
+    margin-top: 1rem;
+    padding-bottom: 2.5rem;
+}
+
+.modern-show-card {
+    border: 1px solid var(--starter-line);
+    border-radius: 1rem;
+    background: var(--ms-card);
+    box-shadow: var(--ms-shadow-soft);
+}
+
+.modern-show-section-title {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    margin: 0 0 1.65rem;
+    color: var(--ms-ink);
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -.02em;
+    line-height: 1.2;
+}
+
+.modern-show-section-title i {
+    color: var(--ms-accent);
+    font-size: 1.2rem;
+}
+
+.modern-show-label {
+    margin-bottom: .55rem;
+    color: var(--ms-muted);
+    font-size: .82rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.modern-show-value {
+    min-width: 0;
+    color: var(--ms-ink);
+    font-size: 1.02rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.modern-show-empty {
+    color: var(--ms-muted);
+    font-size: .94rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Botões do Backpack
+|--------------------------------------------------------------------------
+*/
+.modern-show-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: .65rem;
+    margin-bottom: 1.15rem;
+    flex-wrap: wrap;
+}
+
+.modern-show-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    min-height: 42px;
+    border-radius: .7rem;
+    padding: .62rem 1rem;
+    font-weight: 650;
+    box-shadow: var(--starter-button-shadow);
+}
+
+.modern-show-actions .btn i {
+    font-size: 1.08rem;
+    line-height: 1;
+    vertical-align: -1px;
+}
+
+.modern-show-actions .btn span {
+    position: relative;
+    top: 2px;
+}
+
+.modern-show-actions .btn-primary,
+.modern-show-actions .btn-success,
+.modern-show-actions .btn-info,
+.modern-show-actions .btn-warning,
+.modern-show-actions .btn-secondary,
+.modern-show-actions .btn-default,
+.modern-show-actions a.btn:not(.btn-danger):not(.btn-outline-secondary) {
+    border-color: var(--starter-primary);
+    background: linear-gradient(135deg, var(--starter-primary), var(--starter-primary-2));
+    color: var(--starter-on-accent);
+}
+
+.modern-show-actions .btn-danger {
+    border-color: var(--ms-danger);
+    background: linear-gradient(135deg, var(--starter-danger), var(--starter-danger-2));
+    color: var(--starter-on-accent);
+}
+
+.modern-show-actions [data-button-type="delete"],
+.modern-show-actions [bp-button="delete"] {
+    border-color: var(--ms-danger) !important;
+    background: linear-gradient(135deg, var(--starter-danger), var(--starter-danger-2)) !important;
+    color: var(--starter-on-accent) !important;
+    text-decoration: none;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Layout Users
+|--------------------------------------------------------------------------
+*/
+.modern-user-profile-card {
+    padding: 2.25rem 2.3rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--ms-shadow);
+}
+
+.modern-user-profile-grid {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.65rem;
+    align-items: center;
+}
+
+.modern-user-avatar {
+    width: 86px;
+    height: 86px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--ms-accent);
+    background:
+    radial-gradient(circle at 30% 20%, var(--starter-avatar-start) 0%, var(--starter-avatar-mid) 45%, var(--starter-avatar-end) 100%);
+    font-size: 2.3rem;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: inset 0 0 0 1px var(--starter-inset-line);
+}
+
+.modern-user-profile-main {
+    min-width: 0;
+}
+
+.modern-user-info-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 180px;
+    gap: 1.5rem;
+}
+
+.modern-user-info-item {
+    min-width: 0;
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--ms-line);
+}
+
+.modern-user-info-item:first-child {
+    padding-left: 0;
+    border-left: 0;
+}
+
+.modern-user-status {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    border-radius: .55rem;
+    padding: .45rem .75rem;
+    color: var(--starter-success-text);
+    background: var(--starter-success-soft);
+    border: 1px solid var(--starter-success-line);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.modern-user-status.is-inactive {
+    color: var(--starter-danger-text);
+    background: var(--starter-danger-soft);
+    border-color: var(--starter-danger-line);
+}
+
+.modern-user-status-dot {
+    width: .55rem;
+    height: .55rem;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.modern-user-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+    gap: 1.5rem;
+}
+
+.modern-user-panel {
+    padding: 2rem;
+    min-height: 265px;
+}
+
+.modern-user-panel-row {
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--ms-line);
+}
+
+.modern-user-panel-row:first-of-type {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.modern-user-permission-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .7rem;
+}
+
+.modern-user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .48rem;
+    max-width: 100%;
+    border-radius: .55rem;
+    padding: .52rem .75rem;
+    color: var(--ms-accent);
+    background: var(--starter-chip-soft);
+    border: 1px solid var(--starter-chip-line);
+    font-weight: 700;
+    line-height: 1.1;
+    box-shadow: inset 0 1px 0 var(--starter-inset-highlight);
+}
+
+.modern-user-chip i {
+    font-size: .95rem;
+}
+
+.modern-user-role-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+}
+
+.modern-user-role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .48rem;
+    border-radius: .55rem;
+    padding: .52rem .75rem;
+    color: var(--starter-role-text);
+    background: var(--starter-role-soft);
+    border: 1px solid var(--starter-role-line);
+    font-weight: 750;
+    line-height: 1.1;
+}
+
+.modern-user-role-badge i {
+    color: var(--ms-accent);
+    font-size: 1rem;
+}
+
+.modern-user-meta-item {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: .85rem;
+    align-items: center;
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--ms-line);
+}
+
+.modern-user-meta-item:first-of-type {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.modern-user-meta-icon {
+    color: var(--ms-accent);
+    font-size: 1.25rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Layout Genérico
+|--------------------------------------------------------------------------
+*/
+.modern-show-summary {
+    padding: 2.15rem 2.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--ms-shadow);
+}
+
+.modern-show-summary-content {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.65rem;
+    align-items: center;
+}
+
+.modern-show-avatar {
+    width: 86px;
+    height: 86px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--ms-accent);
+    background:
+    radial-gradient(circle at 30% 20%, var(--starter-avatar-start) 0%, var(--starter-avatar-mid) 45%, var(--starter-avatar-end) 100%);
+    font-size: 2.3rem;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: inset 0 0 0 1px var(--starter-inset-line);
+}
+
+.modern-show-summary-main {
+    min-width: 0;
+}
+
+.modern-show-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.modern-show-summary-item {
+    min-width: 0;
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--ms-line);
+}
+
+.modern-show-summary-item:first-child {
+    padding-left: 0;
+    border-left: 0;
+}
+
+.modern-show-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+    gap: 1.5rem;
+}
+
+.modern-show-panel {
+    padding: 2rem;
+    min-height: 245px;
+}
+
+.modern-show-row {
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--ms-line);
+}
+
+.modern-show-row:first-of-type {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.modern-show-tabs {
+    padding: 1.25rem;
+}
+
+.modern-show-tabs .card {
+    border: 0;
+    box-shadow: none;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Ajustes para colunas renderizadas pelo Backpack
+|--------------------------------------------------------------------------
+*/
+.modern-show .badge,
+.modern-show .badge-default {
+    border-radius: 999px;
+    padding: .42rem .7rem;
+    font-weight: 700;
+}
+
+.modern-show .table {
+    margin-bottom: 0;
+}
+
+.modern-show-value ul,
+.modern-show-value ol {
+    margin-bottom: 0;
+    padding-left: 1.15rem;
+}
+
+.modern-show-value p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 991.98px) {
+    .modern-user-profile-grid,
+    .modern-user-info-grid,
+    .modern-user-grid,
+    .modern-show-summary-content,
+    .modern-show-summary-grid,
+    .modern-show-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modern-user-info-item,
+    .modern-show-summary-item {
+        padding-left: 0;
+        padding-top: 1rem;
+        border-left: 0;
+        border-top: 1px solid var(--ms-line);
+    }
+
+    .modern-user-info-item:first-child,
+    .modern-show-summary-item:first-child {
+        padding-top: 0;
+        border-top: 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .modern-user-profile-card,
+    .modern-user-panel,
+    .modern-show-summary,
+    .modern-show-panel,
+    .modern-show-tabs {
+        padding: 1.25rem;
+    }
+
+    .modern-user-profile-grid,
+    .modern-show-summary-content {
+        gap: 1rem;
+    }
+
+    .modern-user-avatar,
+    .modern-show-avatar {
+        width: 72px;
+        height: 72px;
+        font-size: 2rem;
+    }
+
+    .modern-show-actions .btn {
+        width: 100%;
+    }
+}
+
+@media print {
+    .modern-show {
+        margin-top: 0;
+    }
+
+    .modern-show-card {
+        box-shadow: none;
+    }
+
+    .modern-show-actions {
+        display: none !important;
+    }
+}

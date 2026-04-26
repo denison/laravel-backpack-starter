@@ -1,0 +1,255 @@
+/*
+|--------------------------------------------------------------------------
+| Premium Filters
+|--------------------------------------------------------------------------
+*/
+
+.premium-list-filters {
+    position: relative;
+    z-index: 100;
+    margin-bottom: 1.15rem;
+}
+
+.premium-filter-toolbar {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 110;
+}
+
+.premium-filter-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border-radius: .75rem;
+    color: var(--pl-accent-text);
+    background: var(--pl-accent-soft);
+    border: 1px solid var(--pl-accent-line);
+    box-shadow: var(--pl-shadow-soft);
+}
+
+.premium-filter-dropdown {
+    position: relative;
+    z-index: 120;
+}
+
+.premium-filter-dropdown.show,
+.premium-filter-dropdown:has(.dropdown-menu.show) {
+    z-index: 2200;
+}
+
+.premium-filter-trigger {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .55rem;
+    padding: .55rem .85rem;
+    border: none !important;
+    border-radius: .7rem;
+    color: var(--pl-accent-text);
+    background: transparent;
+    font-size: .83rem;
+    font-weight: 800;
+    line-height: 1;
+    transition: .16s ease;
+}
+
+.premium-filter-trigger:hover,
+.premium-filter-trigger.show,
+.premium-filter-trigger[aria-expanded="true"],
+.premium-filter-trigger.is-active {
+    color: var(--pl-accent-text);
+    background: var(--pl-accent-soft);
+    border-color: var(--pl-accent-line);
+}
+
+.premium-filter-trigger i {
+    font-size: .9rem;
+    color: currentColor;
+}
+
+.premium-filter-trigger-text {
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.premium-filter-menu {
+    min-width: 200px;
+    padding: .45rem;
+    border: 1px solid var(--pl-line);
+    border-radius: .65rem;
+    background: var(--pl-card);
+    box-shadow: var(--pl-shadow);
+    z-index: 2250 !important;
+}
+
+.premium-filter-menu.show {
+    display: block;
+    z-index: 2250 !important;
+}
+
+.premium-filter-input,
+.premium-filter-menu .form-control,
+.premium-filter-menu .form-select {
+    min-height: 38px;
+    border: 1px solid var(--pl-line) !important;
+    border-radius: .55rem !important;
+    color: var(--pl-input-text) !important;
+    background-color: var(--pl-input) !important;
+    font-size: .86rem;
+    box-shadow: none !important;
+}
+
+.premium-filter-input::placeholder {
+    color: var(--pl-placeholder) !important;
+}
+
+.premium-filter-clear {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .55rem .8rem;
+    border: 1px solid var(--pl-line);
+    border-radius: .7rem;
+    color: var(--pl-muted);
+    background: var(--pl-input);
+    font-size: .83rem;
+    font-weight: 800;
+    box-shadow: var(--pl-shadow-soft);
+}
+
+.premium-filter-clear:hover {
+    color: var(--pl-danger);
+    background: var(--pl-danger-soft);
+    border-color: var(--pl-danger-line);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Select2 inside Premium Filters
+|--------------------------------------------------------------------------
+*/
+
+/*
+| Esconde SOMENTE o controle fechado criado pelo Select2.
+| Não mexe no dropdown aberto.
+*/
+.premium-filter-menu .premium-filter-select2-control {
+    position: absolute !important;
+    width: 1px !important;
+    min-width: 1px !important;
+    height: 1px !important;
+    min-height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.premium-filter-menu .premium-filter-select2-control .selection,
+.premium-filter-menu .premium-filter-select2-control .select2-selection,
+.premium-filter-menu .premium-filter-select2-control .select2-selection--single,
+.premium-filter-menu .premium-filter-select2-control .select2-selection__rendered,
+.premium-filter-menu .premium-filter-select2-control .select2-selection__arrow {
+    display: none !important;
+}
+
+/*
+| Dropdown aberto do Select2.
+| Esse é o painel que deve aparecer.
+*/
+.premium-filter-menu > .select2-container--open {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 190px !important;
+    min-width: 190px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+/* opacity: 1 !important; */
+    pointer-events: auto !important;
+    z-index: 2300 !important;
+}
+
+.premium-filter-menu > .select2-container--open .select2-dropdown {
+    position: static !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none!important;
+    border-radius: .5rem !important;
+    color: var(--pl-ink) !important;
+    background: var(--pl-card) !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+}
+
+/*
+| Campo de busca.
+*/
+.premium-filter-menu > .select2-container--open .select2-search--dropdown {
+    display: block !important;
+    margin: 0 !important;
+    padding: .35rem .35rem .3rem !important;
+    background: var(--pl-card) !important;
+}
+
+.premium-filter-menu > .select2-container--open .select2-search__field {
+    width: 100% !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    margin: 0 !important;
+    padding: .35rem .5rem !important;
+    border: 1px solid var(--pl-line) !important;
+    border-radius: .3rem !important;
+    color: var(--pl-input-text) !important;
+    background: var(--pl-input) !important;
+    font-size: .84rem !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+.premium-filter-menu > .select2-container--open .select2-search__field:focus {
+    border-color: var(--pl-line) !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/*
+| Opções.
+*/
+.premium-filter-menu > .select2-container--open .select2-results__options {
+    max-height: 220px !important;
+}
+
+.premium-filter-menu > .select2-container--open .select2-results__option {
+    margin: 0 !important;
+    padding: .45rem .55rem !important;
+    color: var(--pl-ink) !important;
+    background: transparent !important;
+    font-size: .86rem !important;
+    line-height: 1.25 !important;
+}
+
+.premium-filter-menu > .select2-container--open .select2-results__option--highlighted,
+.premium-filter-menu > .select2-container--open .select2-results__option[aria-selected="true"].select2-results__option--highlighted {
+    color: var(--starter-on-accent) !important;
+    background: var(--pl-accent) !important;
+}
+
+.premium-filter-menu > .select2-container--open .select2-results__option[aria-selected="true"] {
+    color: var(--pl-accent-text) !important;
+    background: var(--pl-accent-soft) !important;
+}

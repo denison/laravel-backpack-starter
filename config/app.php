@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'project_slug' => env('PROJECT_SLUG', 'starter'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

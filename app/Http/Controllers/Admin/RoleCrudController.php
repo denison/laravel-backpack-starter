@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CrudListIcon;
 use App\Services\RoleService;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
@@ -60,6 +61,8 @@ class RoleCrudController extends CrudController
 
     public function setupListOperation()
     {
+        $this->crud->set('list.icon', CrudListIcon::Roles->value);
+
         /**
          * Show a column for the name of the role.
          */

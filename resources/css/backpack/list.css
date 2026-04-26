@@ -1,0 +1,677 @@
+.premium-list {
+    position: relative;
+    z-index: 5;
+    margin-top: 1rem;
+    padding-bottom: 2.5rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Card / Header
+|--------------------------------------------------------------------------
+*/
+
+.premium-list-card {
+    position: relative;
+    padding: 1.45rem;
+    border: 1px solid var(--pl-line);
+    border-radius: 1.15rem;
+    background:
+    radial-gradient(circle at 12% -10%, var(--starter-accent-focus), transparent 30%),
+    linear-gradient(180deg, var(--pl-card) 0%, var(--pl-card-soft) 100%);
+    box-shadow: var(--pl-shadow);
+    overflow: visible;
+}
+
+.premium-list-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.premium-list-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.premium-list-title-area {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    min-width: 0;
+}
+
+.premium-list-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border-radius: .9rem;
+    color: var(--pl-accent-text);
+    background: var(--pl-accent-soft);
+    border: 1px solid var(--pl-accent-line);
+    box-shadow: var(--pl-shadow-soft);
+}
+
+.premium-list-icon i {
+    font-size: 1.22rem;
+}
+
+.premium-list-title {
+    margin: 0;
+    color: var(--pl-ink);
+    font-size: 1.15rem;
+    font-weight: 850;
+    letter-spacing: -.025em;
+    line-height: 1.15;
+}
+
+.premium-list-subtitle {
+    margin-top: .35rem;
+    color: var(--pl-muted);
+    font-size: .92rem;
+    line-height: 1.35;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Backpack Header Cleanup
+|--------------------------------------------------------------------------
+*/
+
+.premium-list [bp-section="page-header"] {
+    margin: 0 0 1rem !important;
+    color: var(--pl-ink);
+}
+
+.premium-list [bp-section="page-heading"],
+.premium-list [bp-section="page-header"] h1 {
+    display: none !important;
+}
+
+.premium-list [bp-section="page-subheading"],
+.premium-list .text-muted,
+.premium-list .text-secondary,
+.premium-list small {
+    color: var(--pl-muted) !important;
+}
+
+.premium-list [bp-section="page-subheading"] {
+    font-size: .9rem;
+}
+
+.premium-list a,
+.premium-list [bp-section="page-subheading"] a {
+    color: var(--pl-accent-text) !important;
+    text-decoration: none;
+    font-weight: 650;
+}
+
+.premium-list a:hover,
+.premium-list [bp-section="page-subheading"] a:hover {
+    text-decoration: underline;
+}
+
+.premium-list h1,
+.premium-list h2,
+.premium-list h3,
+.premium-list h4,
+.premium-list h5,
+.premium-list h6 {
+    color: var(--pl-ink);
+}
+
+/*
+|--------------------------------------------------------------------------
+| DataTables Layout
+|--------------------------------------------------------------------------
+*/
+
+.premium-list .dataTables_wrapper {
+    width: 100%;
+    color: var(--pl-ink);
+}
+
+.premium-list .dataTables_wrapper > .row:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: .65rem;
+}
+
+.premium-list .dataTables_wrapper > .row:first-child > div {
+    width: auto;
+    flex: initial;
+}
+
+.premium-list .dataTables_wrapper > .row:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.3rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Buttons
+|--------------------------------------------------------------------------
+*/
+
+.premium-list .crud-buttons,
+.premium-list .dt-buttons {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    flex-wrap: wrap;
+}
+
+.premium-list .crud-buttons .btn,
+.premium-list .dt-buttons .btn,
+.premium-list .btn-primary,
+.premium-list .btn-success,
+.premium-list .btn-info {
+    min-height: 44px;
+    border-radius: .72rem;
+    padding: .66rem 1.05rem;
+    border-color: var(--pl-accent);
+    color: var(--starter-on-accent) !important;
+    background: linear-gradient(135deg, var(--pl-accent), var(--pl-accent-2));
+    font-weight: 750;
+    box-shadow: 0 12px 28px var(--starter-accent-shadow);
+    transition: .18s ease;
+}
+
+.premium-list .crud-buttons .btn:hover,
+.premium-list .dt-buttons .btn:hover,
+.premium-list .btn-primary:hover,
+.premium-list .btn-success:hover,
+.premium-list .btn-info:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 34px var(--starter-accent-shadow-strong);
+}
+
+.premium-list .btn-secondary,
+.premium-list .btn-light,
+.premium-list .btn-outline-secondary {
+    min-height: 42px;
+    border-radius: .68rem;
+    color: var(--pl-ink) !important;
+    background: var(--pl-input);
+    border-color: var(--pl-line);
+    box-shadow: var(--pl-shadow-soft);
+}
+
+.premium-list .btn-danger {
+    min-height: 42px;
+    border-radius: .68rem;
+    color: var(--pl-danger) !important;
+    background: var(--pl-danger-soft);
+    border-color: var(--pl-danger-line);
+    box-shadow: var(--pl-shadow-soft);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Search
+|--------------------------------------------------------------------------
+*/
+
+.premium-list .dataTables_filter {
+    float: none !important;
+    text-align: right;
+}
+
+.premium-list .dataTables_filter label {
+    position: relative;
+    margin: 0;
+    color: transparent !important;
+    font-size: 0;
+}
+
+.premium-list .dataTables_filter label::before {
+    content: "\f002";
+    font-family: "Line Awesome Free";
+    font-weight: 900;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pl-muted-soft);
+    font-size: 1.1rem;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.premium-list .dataTables_filter input {
+    width: min(320px, 100%);
+    min-height: 44px;
+    margin-left: 0 !important;
+    padding: .62rem 1rem .62rem 2.65rem;
+    border: 1px solid var(--pl-line);
+    border-radius: .72rem;
+    color: var(--pl-input-text);
+    background: var(--pl-input);
+    font-size: .92rem;
+    outline: none;
+    box-shadow: var(--pl-shadow-soft);
+    transition: .18s ease;
+}
+
+.premium-list .dataTables_filter input::placeholder {
+    color: var(--pl-placeholder);
+}
+
+.premium-list .dataTables_filter input:focus {
+    border-color: var(--pl-accent);
+    box-shadow:
+    0 0 0 4px var(--starter-accent-focus),
+    var(--pl-shadow-soft);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Clean Table
+|--------------------------------------------------------------------------
+*/
+
+.premium-list .table {
+    --bs-table-color: var(--pl-ink);
+    --bs-table-bg: var(--pl-table-row);
+    --bs-table-border-color: var(--pl-line);
+    --bs-table-striped-bg: var(--pl-table-row);
+    --bs-table-striped-color: var(--pl-ink);
+    --bs-table-hover-bg: var(--pl-table-row-hover);
+    --bs-table-hover-color: var(--pl-ink);
+    --bs-table-active-bg: var(--pl-table-row);
+    --bs-table-active-color: var(--pl-ink);
+    --bs-table-accent-bg: transparent;
+}
+
+.premium-list .table-responsive,
+.premium-list .dataTables_scroll,
+.premium-list .dataTables_scrollHead,
+.premium-list .dataTables_scrollBody {
+    border-radius: .92rem;
+}
+
+.premium-list table,
+.premium-list table.table,
+.premium-list table.dataTable {
+    width: 100% !important;
+    margin: 0 !important;
+    border: 1px solid var(--pl-line) !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border-radius: .92rem !important;
+    overflow: hidden !important;
+    color: var(--pl-ink) !important;
+    background: var(--pl-table-row) !important;
+    box-shadow: none !important;
+}
+
+.premium-list table.dataTable tfoot,
+.premium-list table.table tfoot {
+    display: none !important;
+}
+
+.premium-list table > :not(caption) > * > * {
+    color: var(--pl-ink) !important;
+    background-color: var(--pl-table-row) !important;
+    box-shadow: none !important;
+}
+
+.premium-list table thead > tr > th,
+.premium-list table.dataTable thead > tr > th,
+.premium-list table.table thead th {
+    padding: .95rem 1.05rem !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid var(--pl-line) !important;
+    color: var(--pl-muted) !important;
+    background: var(--pl-table-head) !important;
+    font-size: .78rem !important;
+    font-weight: 850 !important;
+    text-transform: none !important;
+    letter-spacing: .01em !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
+}
+
+.premium-list table tbody > tr,
+.premium-list table tbody > tr.odd,
+.premium-list table tbody > tr.even,
+.premium-list table.table-striped > tbody > tr:nth-of-type(odd),
+.premium-list table.table-striped > tbody > tr:nth-of-type(even) {
+    --bs-table-accent-bg: transparent !important;
+    color: var(--pl-ink) !important;
+    background-color: var(--pl-table-row) !important;
+    box-shadow: none !important;
+}
+
+.premium-list table tbody > tr > td,
+.premium-list table tbody > tr.odd > td,
+.premium-list table tbody > tr.even > td,
+.premium-list table.table-striped > tbody > tr:nth-of-type(odd) > *,
+.premium-list table.table-striped > tbody > tr:nth-of-type(even) > * {
+    --bs-table-accent-bg: transparent !important;
+    padding: 1.05rem 1.05rem !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid var(--pl-line-soft) !important;
+    color: var(--pl-ink) !important;
+    background-color: var(--pl-table-row) !important;
+    box-shadow: none !important;
+    font-size: .92rem !important;
+    vertical-align: middle !important;
+}
+
+.premium-list table tbody > tr:last-child td,
+.premium-list table.table tbody tr:last-child td {
+    border-bottom: 0 !important;
+}
+
+.premium-list table tbody > tr:hover > td,
+.premium-list table tbody > tr:hover > *,
+.premium-list table.table-hover > tbody > tr:hover > * {
+    --bs-table-accent-bg: transparent !important;
+    color: var(--pl-ink) !important;
+    background-color: var(--pl-table-row-hover) !important;
+    box-shadow: none !important;
+}
+
+.premium-list table.dataTable.display tbody tr.odd > .sorting_1,
+.premium-list table.dataTable.order-column.stripe tbody tr.odd > .sorting_1,
+.premium-list table.dataTable.display tbody tr.even > .sorting_1,
+.premium-list table.dataTable.order-column.stripe tbody tr.even > .sorting_1,
+.premium-list table.dataTable.display tbody tr:hover > .sorting_1,
+.premium-list table.dataTable.order-column.hover tbody tr:hover > .sorting_1 {
+    --bs-table-accent-bg: transparent !important;
+    background-color: inherit !important;
+    box-shadow: none !important;
+}
+
+.premium-list table.dataTable thead .sorting,
+.premium-list table.dataTable thead .sorting_asc,
+.premium-list table.dataTable thead .sorting_desc {
+    background-position: right .85rem center !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Table Links / Badges / Actions
+|--------------------------------------------------------------------------
+*/
+
+.premium-list table.dataTable tbody td a,
+.premium-list table.table tbody td a {
+    color: var(--pl-accent-text) !important;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.premium-list table.dataTable tbody td a:hover,
+.premium-list table.table tbody td a:hover {
+    text-decoration: underline;
+}
+
+.premium-list .badge,
+.premium-list .badge-default,
+.premium-list .badge-light {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    border-radius: .5rem;
+    padding: .4rem .62rem;
+    color: var(--pl-accent-text) !important;
+    background: var(--pl-accent-soft) !important;
+    border: 1px solid var(--pl-accent-line) !important;
+    font-size: .78rem;
+    font-weight: 750;
+    line-height: 1.1;
+}
+
+.premium-list .badge-success,
+.premium-list .bg-success {
+    color: var(--pl-success) !important;
+    background: var(--pl-success-soft) !important;
+    border-color: var(--pl-success-line) !important;
+}
+
+.premium-list .badge-danger,
+.premium-list .bg-danger {
+    color: var(--pl-danger) !important;
+    background: var(--pl-danger-soft) !important;
+    border-color: var(--pl-danger-line) !important;
+}
+
+.premium-list .badge-warning,
+.premium-list .bg-warning {
+    color: var(--pl-warning) !important;
+    background: var(--pl-warning-soft) !important;
+    border-color: var(--pl-warning-line) !important;
+}
+
+.premium-list table td:last-child {
+    white-space: nowrap;
+}
+
+.premium-list table td:last-child a,
+.premium-list table td:last-child button,
+.premium-list table .btn,
+.premium-list table a.btn,
+.premium-list table .btn-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    min-height: 36px;
+    padding: .45rem .72rem;
+    margin-right: .38rem;
+    border-radius: .6rem;
+    border: 1px solid var(--pl-line);
+    background: var(--pl-input);
+    color: var(--pl-accent-text) !important;
+    font-size: .82rem;
+    font-weight: 800;
+    text-decoration: none !important;
+    box-shadow: var(--pl-shadow-soft);
+    transition: .16s ease;
+}
+
+.premium-list table td:last-child a i,
+.premium-list table td:last-child button i,
+.premium-list table .btn i,
+.premium-list table a.btn i,
+.premium-list table .btn-link i {
+    color: inherit !important;
+}
+
+.premium-list table td:last-child a:hover,
+.premium-list table td:last-child button:hover,
+.premium-list table .btn:hover,
+.premium-list table a.btn:hover,
+.premium-list table .btn-link:hover {
+    transform: translateY(-1px);
+    border-color: var(--pl-accent-line);
+    color: var(--pl-accent-text) !important;
+    background: var(--pl-accent-soft);
+    text-decoration: none !important;
+}
+
+.premium-list table td:last-child a:last-child,
+.premium-list table td:last-child button:last-child {
+    margin-right: 0;
+}
+
+.premium-list table td:last-child a.text-danger,
+.premium-list table td:last-child button.text-danger,
+.premium-list table .btn-danger,
+.premium-list table a.btn-danger,
+.premium-list table .btn-link.text-danger,
+.premium-list table a[data-button-type="delete"],
+.premium-list table button[data-button-type="delete"] {
+    border-color: var(--pl-danger-line) !important;
+    background: var(--pl-danger-soft) !important;
+    color: var(--pl-danger) !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Length / Info / Pagination
+|--------------------------------------------------------------------------
+*/
+
+.premium-list .dataTables_length {
+    float: none !important;
+    color: var(--pl-muted) !important;
+    font-size: .9rem;
+}
+
+.premium-list .dataTables_length label {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin: 0;
+    color: var(--pl-muted) !important;
+    font-weight: 500;
+}
+
+.premium-list .dataTables_length select {
+    min-width: 86px;
+    min-height: 42px;
+    border: 1px solid var(--pl-line);
+    border-radius: .66rem;
+    color: var(--pl-input-text);
+    background-color: var(--pl-input);
+    box-shadow: var(--pl-shadow-soft);
+}
+
+.premium-list .dataTables_info {
+    color: var(--pl-muted) !important;
+    font-size: .9rem;
+    padding-top: 0 !important;
+}
+
+.premium-list .dataTables_paginate {
+    display: flex;
+    justify-content: flex-end;
+    float: none !important;
+}
+
+.premium-list .pagination {
+    gap: .42rem;
+    margin: 0;
+}
+
+.premium-list .page-item .page-link {
+    min-width: 40px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--pl-line);
+    border-radius: .65rem;
+    color: var(--pl-muted) !important;
+    background: var(--pl-input);
+    box-shadow: var(--pl-shadow-soft);
+}
+
+.premium-list .page-item .page-link:hover {
+    color: var(--pl-accent-text) !important;
+    background: var(--pl-accent-soft);
+    border-color: var(--pl-accent-line);
+}
+
+.premium-list .page-item.active .page-link {
+    border-color: var(--pl-accent);
+    color: var(--starter-on-accent) !important;
+    background: linear-gradient(135deg, var(--pl-accent), var(--pl-accent-2));
+    box-shadow: 0 12px 28px var(--starter-accent-shadow-strong);
+}
+
+.premium-list .page-item.disabled .page-link {
+    color: var(--pl-muted-soft) !important;
+    background: var(--pl-input);
+    opacity: .65;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Forms
+|--------------------------------------------------------------------------
+*/
+
+.premium-list .form-control,
+.premium-list .form-select,
+.premium-list select,
+.premium-list input {
+    color: var(--pl-input-text) !important;
+    background-color: var(--pl-input) !important;
+    border-color: var(--pl-line) !important;
+}
+
+.premium-list .form-control::placeholder,
+.premium-list input::placeholder {
+    color: var(--pl-placeholder) !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Responsive
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 991.98px) {
+    .premium-list-card {
+        padding: 1.1rem;
+    }
+
+    .premium-list-header,
+    .premium-list .dataTables_wrapper > .row:first-child,
+    .premium-list .dataTables_wrapper > .row:last-child {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .premium-list .dataTables_filter,
+    .premium-list .dataTables_paginate {
+        text-align: left;
+        justify-content: flex-start;
+    }
+
+    .premium-list .dataTables_filter input {
+        width: 100%;
+    }
+
+    .premium-list table.dataTable thead th,
+    .premium-list table.table thead th,
+    .premium-list table.dataTable tbody td,
+    .premium-list table.table tbody td {
+        padding: .9rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .premium-list {
+        margin-top: .5rem;
+    }
+
+    .premium-list-card {
+        border-radius: .9rem;
+        padding: 1rem;
+    }
+
+    .premium-list-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .premium-list table td:last-child a,
+    .premium-list table td:last-child button {
+        margin-bottom: .35rem;
+    }
+}

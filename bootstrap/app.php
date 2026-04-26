@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Prologue\Alerts\Facades\Alert;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,5 +20,13 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (ModelNotFoundException $e, $request) {
+            if ($request->is(trim(config('backpack.base.route_prefix', 'admin'), '/').'*')) {
+                Alert::error('Pagina nao existe.')->flash();
+
+                return redirect()->route('backpack.dashboard');
+            }
+
+            return null;
+        });
     })->create();

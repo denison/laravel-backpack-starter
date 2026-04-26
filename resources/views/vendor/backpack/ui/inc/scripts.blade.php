@@ -12,6 +12,42 @@
 @basset('https://unpkg.com/noty@3.2.0-beta-deprecated/lib/noty.min.js')
 @basset('https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js') --}}
 
+{{-- <script>
+    $(document).ready(function () {
+        console.log('jQuery:', typeof window.jQuery);
+        console.log('Select2:', typeof $.fn.select2);
+
+        setTimeout(function () {
+            const $test = $('#global_select2_test');
+
+            console.log('Teste Select2 encontrado:', $test.length);
+
+            if (!$test.length) {
+                return;
+            }
+
+            $test.select2({
+                width: '250px',
+                placeholder: 'Selecione...',
+                allowClear: true,
+                minimumResultsForSearch: 0,
+                dropdownParent: $('body')
+            });
+
+            console.log('Teste Select2 inicializado:', $test.hasClass('select2-hidden-accessible'));
+        }, 500);
+
+        // $('#global_select2_test').select2(
+        // {
+        //     width: '250px',
+        //     minimumResultsForSearch: 0,
+        //     placeholder: 'Selecione...',
+        //     allowClear: true,
+        //     dropdownParent: $('body')
+        // });
+    });
+</script> --}}
+
 @if (backpack_theme_config('scripts') && count(backpack_theme_config('scripts')))
     @foreach (backpack_theme_config('scripts') as $path)
         @if(is_array($path))
