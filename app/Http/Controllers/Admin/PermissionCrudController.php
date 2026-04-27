@@ -12,7 +12,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Http\Requests\PermissionStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\PermissionUpdateCrudRequest as UpdateRequest;
 use Spatie\Permission\PermissionRegistrar;
@@ -48,9 +47,6 @@ class PermissionCrudController extends CrudController
         $this->crud->setModel($permission_model);
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.permission_singular'), trans('backpack::permissionmanager.permission_plural'));
         $this->crud->setRoute(backpack_url('permission'));
-
-        // CRUD::setCreateView('admin.permissions.form');
-        // CRUD::setEditView('admin.permissions.form');
 
         $this->applyCrudUiPermissions('permissions');
 
@@ -135,38 +131,6 @@ class PermissionCrudController extends CrudController
             'section' => CreateSection::Main->value,
             'hint' => 'Use em português (nome amigável) que será exibido para os usuários no painel.',
         ]);
-
-        //  $this->crud->addField([
-        //     'name' => 'name2',
-        //     'label' =>'TEste',
-        //     'type' => 'text',
-        //     'section' => CreateSection::Custom->value,
-        //     'hint' => implode("\n", [
-        //         'Padrão: resource.action (em inglês, usado no código).',
-        //         'Exemplos:',
-        //         '- processes.access',
-        //         '- processes.create',
-        //         '- processes.edit',
-        //         '- processes.delete',
-        //     ]),
-        // ]);
-
-        // $this->crud->addField([
-        //     'name' => 'display_name2',
-        //     'label' => 'TEste',
-        //     'type' => 'text',
-        //     'section' => CreateSection::Details->value,
-        //     'hint' => 'Use em português (nome amigável) que será exibido para os usuários no painel.',
-        // ]);
-
-        if (config('backpack.permissionmanager.multiple_guards')) {
-            $this->crud->addField([
-                'name' => 'guard_name',
-                'label' => trans('backpack::permissionmanager.guard_type'),
-                'type' => 'select_from_array',
-                'options' => $this->getGuardTypes(),
-            ]);
-        }
     }
 
     /*

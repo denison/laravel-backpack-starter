@@ -1,0 +1,113 @@
+
+.user-access-block {
+    width: 100%;
+}
+
+.user-access-group {
+    margin-bottom: 22px;
+}
+
+.starter-inner-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--starter-ink);
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.role-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .55rem .75rem;
+}
+
+.role-chip {
+    border-radius: 999px;
+    padding: .22rem 1rem;
+    font-size: .84rem;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.user-access-permissions {
+    padding-top: 20px;
+    border-top: 1px solid var(--starter-line);
+}
+
+.user-access-permissions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.permission-switch .form-check-input {
+    width: 2.8rem;
+    flex-shrink: 0;
+}
+
+.permission-modules-grid {
+    margin-top: 0;
+    row-gap: 16px;
+}
+
+.permission-module {
+    border: 1px solid var(--starter-line);
+    border-radius: 14px;
+    background: var(--starter-card);
+    box-shadow: var(--starter-shadow-soft);
+    padding: 14px 15px 12px;
+}
+
+.permission-module-header {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--starter-line-soft);
+}
+
+.permission-module-title {
+    color: var(--starter-ink);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.permission-module-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 9px 14px;
+}
+
+.permission-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.permission-action-label {
+    color: var(--starter-ink);
+    font-size: 13px;
+    line-height: 1.25;
+    font-weight: 600;
+    white-space: normal;
+    cursor: pointer;
+}
+
+@media (max-width: 576px) {
+    .user-access-permissions-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .permission-module {
+        padding: 12px;
+    }
+
+    .permission-module-actions {
+        grid-template-columns: 1fr;
+    }
+}

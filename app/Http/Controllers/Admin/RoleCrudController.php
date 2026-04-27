@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CreateSection;
 use App\Enums\CrudListIcon;
 use App\Services\RoleService;
+use App\Traits\HasCreateSections;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -26,6 +28,7 @@ class RoleCrudController extends CrudController
 
     use CreateOperation { store as traitStore; }
     use DeleteOperation;
+    use HasCreateSections;
     use HasCrudRoutePermissions;
     use HasCrudUiPermissions;
     use ListOperation;
@@ -122,6 +125,7 @@ class RoleCrudController extends CrudController
     {
         $this->addFields();
         $this->setupRoleFormData();
+        $this->prepareCreateSections();
         $this->crud->setValidation(StoreRequest::class);
 
         // otherwise, changes won't have effect
@@ -132,6 +136,7 @@ class RoleCrudController extends CrudController
     {
         $this->addFields();
         $this->setupRoleFormData();
+        $this->prepareCreateSections();
         $this->crud->setValidation(UpdateRequest::class);
 
         // otherwise, changes won't have effect
@@ -176,6 +181,7 @@ class RoleCrudController extends CrudController
             'name' => 'name',
             'label' => trans('backpack::permissionmanager.name'),
             'type' => 'text',
+            'section' => CreateSection::Main->value,
             'hint' => 'Use em inglês (identificador técnico) para manter o padrão do sistema. Ex.: "process_manager".',
         ]);
 
@@ -183,6 +189,7 @@ class RoleCrudController extends CrudController
             'name' => 'display_name',
             'label' => 'Nome de exibição',
             'type' => 'text',
+            'section' => CreateSection::Main->value,
             'hint' => 'Use em português (nome amigável) que será exibido para os usuários no painel. Ex.: "Gerente de Processos".',
         ]);
 
@@ -191,6 +198,7 @@ class RoleCrudController extends CrudController
                 'name' => 'guard_name',
                 'label' => trans('backpack::permissionmanager.guard_type'),
                 'type' => 'select_from_array',
+                'section' => CreateSection::Custom->value,
                 'options' => $this->getGuardTypes(),
             ]);
         }
