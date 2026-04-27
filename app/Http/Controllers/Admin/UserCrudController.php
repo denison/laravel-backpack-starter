@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CreateSection;
 use App\Enums\CrudListIcon;
 use App\Services\UserService;
+use App\Traits\HasCreateSections;
 use App\Traits\HasCrudListFilters;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
@@ -22,6 +24,7 @@ class UserCrudController extends CrudController
 {
     use CreateOperation { store as traitStore; }
     use DeleteOperation;
+    use HasCreateSections;
     use HasCrudListFilters;
     use HasCrudRoutePermissions;
     use HasCrudUiPermissions;
@@ -120,6 +123,7 @@ class UserCrudController extends CrudController
     public function setupCreateOperation()
     {
         $this->addUserFields();
+        $this->prepareCreateSections();
         $this->setupUserFormData();
         $this->crud->setValidation(StoreRequest::class);
     }
@@ -127,6 +131,7 @@ class UserCrudController extends CrudController
     public function setupUpdateOperation()
     {
         $this->addUserFields();
+        $this->prepareCreateSections();
         $this->setupUserFormData();
         $this->crud->setValidation(UpdateRequest::class);
     }
@@ -214,27 +219,32 @@ class UserCrudController extends CrudController
                 'name' => 'name',
                 'label' => trans('backpack::permissionmanager.name'),
                 'type' => 'text',
+                'section' => CreateSection::Main->value,
             ],
             [
                 'name' => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
                 'type' => 'email',
+                'section' => CreateSection::Main->value,
             ],
             [
                 'name' => 'password',
                 'label' => trans('backpack::permissionmanager.password'),
                 'type' => 'password',
+                'section' => CreateSection::Main->value,
             ],
             [
                 'name' => 'password_confirmation',
                 'label' => trans('backpack::permissionmanager.password_confirmation'),
                 'type' => 'password',
+                'section' => CreateSection::Main->value,
             ],
             [
                 // two interconnected entities
                 'label' => trans('backpack::permissionmanager.user_role_permission'),
                 'field_unique_name' => 'user_role_permission',
                 'type' => 'checklist_dependency',
+                'section' => CreateSection::Custom->value,
                 'name' => 'roles,permissions',
                 'subfields' => [
                     'primary' => [

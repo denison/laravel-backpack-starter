@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CreateSection;
 use App\Enums\CrudListIcon;
+use App\Traits\HasCreateSections;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -25,6 +27,7 @@ class PermissionCrudController extends CrudController
 
     use CreateOperation;
     use DeleteOperation;
+    use HasCreateSections;
     use HasCrudRoutePermissions;
     use HasCrudUiPermissions;
     use ListOperation;
@@ -46,8 +49,8 @@ class PermissionCrudController extends CrudController
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.permission_singular'), trans('backpack::permissionmanager.permission_plural'));
         $this->crud->setRoute(backpack_url('permission'));
 
-        CRUD::setCreateView('admin.permissions.form');
-        CRUD::setEditView('admin.permissions.form');
+        // CRUD::setCreateView('admin.permissions.form');
+        // CRUD::setEditView('admin.permissions.form');
 
         $this->applyCrudUiPermissions('permissions');
 
@@ -91,6 +94,7 @@ class PermissionCrudController extends CrudController
     public function setupCreateOperation()
     {
         $this->addFields();
+        $this->prepareCreateSections();
         $this->crud->setValidation(StoreRequest::class);
 
         // otherwise, changes won't have effect
@@ -100,6 +104,7 @@ class PermissionCrudController extends CrudController
     public function setupUpdateOperation()
     {
         $this->addFields();
+        $this->prepareUpdateSections();
         $this->crud->setValidation(UpdateRequest::class);
 
         // otherwise, changes won't have effect
@@ -112,6 +117,7 @@ class PermissionCrudController extends CrudController
             'name' => 'name',
             'label' => trans('backpack::permissionmanager.name'),
             'type' => 'text',
+            'section' => CreateSection::Main->value,
             'hint' => implode("\n", [
                 'Padrão: resource.action (em inglês, usado no código).',
                 'Exemplos:',
@@ -126,8 +132,32 @@ class PermissionCrudController extends CrudController
             'name' => 'display_name',
             'label' => 'Nome de exibição',
             'type' => 'text',
+            'section' => CreateSection::Main->value,
             'hint' => 'Use em português (nome amigável) que será exibido para os usuários no painel.',
         ]);
+
+        //  $this->crud->addField([
+        //     'name' => 'name2',
+        //     'label' =>'TEste',
+        //     'type' => 'text',
+        //     'section' => CreateSection::Custom->value,
+        //     'hint' => implode("\n", [
+        //         'Padrão: resource.action (em inglês, usado no código).',
+        //         'Exemplos:',
+        //         '- processes.access',
+        //         '- processes.create',
+        //         '- processes.edit',
+        //         '- processes.delete',
+        //     ]),
+        // ]);
+
+        // $this->crud->addField([
+        //     'name' => 'display_name2',
+        //     'label' => 'TEste',
+        //     'type' => 'text',
+        //     'section' => CreateSection::Details->value,
+        //     'hint' => 'Use em português (nome amigável) que será exibido para os usuários no painel.',
+        // ]);
 
         if (config('backpack.permissionmanager.multiple_guards')) {
             $this->crud->addField([
