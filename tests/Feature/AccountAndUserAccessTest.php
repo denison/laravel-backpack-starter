@@ -9,6 +9,7 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
@@ -115,8 +116,10 @@ class AccountAndUserAccessTest extends TestCase
         $manager = $this->userWithRole('manager');
         $target = User::factory()->create(['active' => true]);
         $manager->givePermissionTo($this->permission('users.edit'));
+        $this->assertTrue($manager->hasPermissionTo('users.edit'));
 
         $this->actingAs($manager, backpack_guard_name())
+            ->withCsrfToken()
             ->patchJson(backpack_url("user/{$target->id}/active"), ['active' => false])
             ->assertOk()
             ->assertJsonPath('active', false);
@@ -129,8 +132,10 @@ class AccountAndUserAccessTest extends TestCase
         $tenant = $this->tenant('Empresa A', '11222333000181');
         $manager = $this->userWithRole('tenant_admin', $tenant);
         $manager->givePermissionTo($this->permission('users.edit'));
+        $this->assertTrue($manager->hasPermissionTo('users.edit'));
 
         $this->actingAs($manager, backpack_guard_name())
+            ->withCsrfToken()
             ->patchJson(backpack_url("user/{$manager->id}/active"), ['active' => false])
             ->assertOk()
             ->assertJsonPath('active', false);
@@ -143,8 +148,10 @@ class AccountAndUserAccessTest extends TestCase
         $manager = $this->userWithRole('manager');
         $tenant = $this->tenant('Empresa A', '11222333000181');
         $manager->givePermissionTo($this->permission('tenants.edit'));
+        $this->assertTrue($manager->hasPermissionTo('tenants.edit'));
 
         $this->actingAs($manager, backpack_guard_name())
+            ->withCsrfToken()
             ->patchJson(backpack_url("tenant/{$tenant->id}/active"), ['active' => false])
             ->assertOk()
             ->assertJsonPath('active', false);
@@ -167,6 +174,15 @@ class AccountAndUserAccessTest extends TestCase
             'country_code' => 'BR',
             'active' => $active,
         ]);
+    }
+
+    private function withCsrfToken(): self
+    {
+        $token = Str::random(40);
+
+        return $this
+            ->withSession(['_token' => $token])
+            ->withHeader('X-CSRF-TOKEN', $token);
     }
 
     private function userWithRole(string $role, ?Tenant $tenant = null): User

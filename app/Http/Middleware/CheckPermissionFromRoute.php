@@ -13,7 +13,7 @@ class CheckPermissionFromRoute
     {
         $user = backpack_user();
 
-        if (! $user || ! $permission || ! $user->can($permission)) {
+        if (! $user || ! $permission || ! $user->hasPermissionTo($permission)) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Você não possui permissão para esta ação.'], 403);
             }
