@@ -22,6 +22,8 @@ class User extends Authenticatable implements HasMedia
 
     use HasFactory, HasRoles, InteractsWithMedia, Notifiable;
 
+    protected string $guard_name = 'web';
+
     /**
      * The attributes that are mass assignable.
      *
