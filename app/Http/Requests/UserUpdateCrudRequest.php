@@ -2,31 +2,48 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesUserTenant;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UserUpdateCrudRequest extends FormRequest
 {
-    public function authorize()
+    use ValidatesUserTenant;
+
+    public function authorize(): bool
     {
         return backpack_auth()->check();
     }
 
-    public function rules()
+    public function rules(): array
     {
         $id = $this->get('id') ?? request()->route('id');
+        $userModel = config('backpack.permissionmanager.models.user');
 
         return [
-            'email' => 'required|email|unique:'.config('backpack.permissionmanager.models.user', 'users').',email,'.$id,
+            'email' => ['required', 'email', Rule::unique($userModel, 'email')->ignore($id)],
             'name' => 'required',
             'password' => 'nullable|confirmed',
+            'active' => 'required|boolean',
+            'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'remove_avatar' => ['nullable', 'boolean'],
 
             // precisa manter pelo menos um grupo/role no usuário
-            'roles' => 'required|array|min:1',
+            'roles' => 'required|array|min:1|max:1',
             'roles.*' => 'exists:roles,id',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,id',
+            'tenant_id' => ['nullable', Rule::exists('tenants', 'id')->whereNull('deleted_at')],
         ];
     }
 
-    public function messages()
+    public function withValidator(Validator $validator): void
+    {
+        $this->addTenantRoleValidation($validator);
+    }
+
+    public function messages(): array
     {
         return [
             'roles.required' => 'Selecione um grupo de acesso para o usuário.',
@@ -36,13 +53,16 @@ class UserUpdateCrudRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'email' => 'e-mail',
             'name' => 'nome',
             'password' => 'senha',
+            'active' => 'status',
             'roles' => 'grupo de acesso',
+            'tenant_id' => 'empresa',
+            'avatar' => 'foto',
         ];
     }
 }

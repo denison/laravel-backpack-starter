@@ -22,10 +22,6 @@ use Spatie\Permission\PermissionRegistrar;
 
 class RoleCrudController extends CrudController
 {
-    protected string $role_model;
-
-    protected string $permission_model;
-
     use CreateOperation { store as traitStore; }
     use DeleteOperation;
     use HasCreateSections;
@@ -43,10 +39,7 @@ class RoleCrudController extends CrudController
 
     public function setup()
     {
-        $this->role_model = $role_model = config('backpack.permissionmanager.models.role');
-        $this->permission_model = $permission_model = config('backpack.permissionmanager.models.permission');
-
-        $this->crud->setModel($role_model);
+        $this->crud->setModel(config('backpack.permissionmanager.models.role'));
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.role'), trans('backpack::permissionmanager.roles'));
         $this->crud->setRoute(backpack_url('role'));
 
@@ -136,7 +129,7 @@ class RoleCrudController extends CrudController
     {
         $this->addFields();
         $this->setupRoleFormData();
-        $this->prepareCreateSections();
+        $this->prepareUpdateSections();
         $this->crud->setValidation(UpdateRequest::class);
 
         // otherwise, changes won't have effect
@@ -207,7 +200,9 @@ class RoleCrudController extends CrudController
 
     protected function setupRoleFormData(): void
     {
-        $this->data['permissionsList'] = $this->roleService()->permissionsForForm();
+        $this->data['permissionsList'] = $this->roleService()->permissionsForForm(
+            $this->crud->getCurrentEntry()
+        );
     }
 
     protected function roleService(): RoleService

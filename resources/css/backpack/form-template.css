@@ -220,6 +220,28 @@
     color: var(--starter-input-text);
 }
 
+.starter-postal-code-feedback {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 18px;
+    margin-top: 7px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.starter-postal-code-feedback.is-loading {
+    color: var(--starter-muted);
+}
+
+.starter-postal-code-feedback.is-success {
+    color: var(--starter-success);
+}
+
+.starter-postal-code-feedback.is-error {
+    color: var(--starter-danger);
+}
+
 .starter-create .select2-container--bootstrap .select2-selection,
 .starter-create .select2-container--bootstrap-5 .select2-selection,
 .starter-create .select2-container .select2-selection--single,
@@ -244,6 +266,23 @@
 .starter-create .select2-container--open .select2-selection {
     border-color: var(--starter-accent-line) !important;
     box-shadow: 0 0 0 4px var(--starter-accent-focus) !important;
+}
+
+.starter-create .starter-select2 + .select2-container .select2-selection--single {
+    display: flex;
+    align-items: center;
+    height: 42px;
+}
+
+.starter-create .starter-select2 + .select2-container .select2-selection--single .select2-selection__rendered {
+    width: 100%;
+    padding: 0 38px 0 14px;
+    line-height: 1.2;
+}
+
+.starter-create .starter-select2 + .select2-container .select2-selection--single .select2-selection__arrow {
+    top: 0;
+    height: 100%;
 }
 
 .starter-form-section-custom .starter-form-section-content {

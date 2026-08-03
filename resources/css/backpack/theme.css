@@ -3,6 +3,8 @@
 | Starter Admin Theme Tokens
 |--------------------------------------------------------------------------
 |
+| PERSONALIZACAO RAPIDA: comece por --starter-system-primary,
+| --starter-system-primary-rgb, --starter-accent e pelas cores de estado.
 | Edite cores, sombras e estados visuais do painel neste arquivo.
 | Os CSSs de componentes devem consumir estas variaveis em vez de declarar
 | cores proprias espalhadas pelas views.
@@ -83,6 +85,10 @@
     --starter-avatar-end: #ede7ff;
 
     --starter-on-accent: #ffffff;
+    --starter-status-inactive: #94a3b8;
+    --starter-status-inactive-soft: rgb(148 163 184 / 18%);
+    --starter-overlay: rgb(15 23 42 / 58%);
+    --starter-modal-shadow: 0 30px 90px rgb(15 23 42 / 30%);
     --starter-shadow: 0 22px 60px rgba(15, 23, 42, .10);
     --starter-shadow-soft: 0 10px 24px rgba(15, 23, 42, .06);
     --starter-show-shadow: 0 18px 45px rgba(15, 23, 42, .08);
@@ -188,6 +194,10 @@ body.dark-mode {
     --starter-avatar-mid: #2b2534;
     --starter-avatar-end: #241f2b;
 
+    --starter-status-inactive: #6f667c;
+    --starter-status-inactive-soft: rgb(111 102 124 / 24%);
+    --starter-overlay: rgb(5 4 8 / 72%);
+    --starter-modal-shadow: 0 30px 90px rgb(0 0 0 / 45%);
     --starter-shadow: 0 24px 70px rgba(0, 0, 0, .38);
     --starter-shadow-soft: 0 12px 30px rgba(0, 0, 0, .24);
     --starter-show-shadow: 0 18px 45px rgba(0, 0, 0, .32);

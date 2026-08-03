@@ -1,6 +1,6 @@
 # Form Template do Starter
 
-Este documento explica o padrão visual usado nos formulários de `create` e `edit` do starter Laravel 12 + Backpack 7.
+Este documento explica o padrão visual usado nos formulários de `create` e `edit` do starter Laravel 13 + Backpack 7.
 
 A ideia principal é:
 

@@ -120,6 +120,7 @@ trait HasCreateSections
             'table',
             'upload',
             'upload_multiple',
+            'starter_image_upload',
             'browse',
             'browse_multiple',
         ];

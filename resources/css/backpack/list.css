@@ -621,6 +621,139 @@
 
 /*
 |--------------------------------------------------------------------------
+| DataTables Responsive Modal
+|--------------------------------------------------------------------------
+*/
+
+div.dtr-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem !important;
+}
+
+div.dtr-modal div.dtr-modal-background {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    background: var(--starter-overlay) !important;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+html[data-bs-theme="light"] div.dtr-modal div.dtr-modal-background,
+html[data-bs-theme="dark"] div.dtr-modal div.dtr-modal-background,
+body[data-bs-theme="light"] div.dtr-modal div.dtr-modal-background,
+body[data-bs-theme="dark"] div.dtr-modal div.dtr-modal-background {
+    background: var(--starter-overlay) !important;
+}
+
+div.dtr-modal div.dtr-modal-display {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 2 !important;
+    width: min(680px, 100%) !important;
+    height: auto !important;
+    max-height: calc(100vh - 3rem) !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid var(--starter-line) !important;
+    border-radius: 1rem !important;
+    color: var(--starter-ink) !important;
+    background: linear-gradient(180deg, var(--starter-card), var(--starter-card-soft)) !important;
+    box-shadow: var(--starter-modal-shadow) !important;
+}
+
+div.dtr-modal div.dtr-modal-content {
+    max-height: calc(100vh - 3rem) !important;
+    padding: 3.75rem 1.25rem 1.25rem !important;
+    overflow: auto !important;
+}
+
+div.dtr-modal div.dtr-modal-close {
+    position: absolute !important;
+    top: 1rem !important;
+    right: 1rem !important;
+    z-index: 3 !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border: 1px solid var(--starter-line) !important;
+    border-radius: .7rem !important;
+    color: var(--starter-muted) !important;
+    background: var(--starter-input) !important;
+    box-shadow: var(--starter-shadow-soft);
+    font-size: 1.25rem !important;
+    line-height: 1 !important;
+    cursor: pointer;
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+div.dtr-modal div.dtr-modal-close:hover {
+    border-color: var(--starter-danger-line) !important;
+    color: var(--starter-danger-text) !important;
+    background: var(--starter-danger-soft) !important;
+    transform: translateY(-1px);
+}
+
+div.dtr-modal table,
+div.dtr-modal table.table,
+div.dtr-modal table.dtr-details-table {
+    width: 100% !important;
+    margin: 0 !important;
+    overflow: hidden;
+    border: 1px solid var(--starter-line) !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border-radius: .8rem;
+    color: var(--starter-ink) !important;
+    background: var(--starter-table-row) !important;
+}
+
+div.dtr-modal table tbody tr td {
+    padding: .9rem 1rem !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--starter-line-soft) !important;
+    color: var(--starter-ink) !important;
+    background: var(--starter-table-row) !important;
+    vertical-align: middle !important;
+}
+
+div.dtr-modal table tbody tr:nth-child(even) td {
+    background: var(--starter-card-soft) !important;
+}
+
+div.dtr-modal table tbody tr:last-child td {
+    border-bottom: 0 !important;
+}
+
+div.dtr-modal table tbody tr td:first-child {
+    width: 34%;
+    color: var(--starter-muted) !important;
+    font-weight: 750;
+}
+
+div.dtr-modal table tbody tr td:last-child {
+    overflow-wrap: anywhere;
+}
+
+div.dtr-modal table a {
+    color: var(--starter-accent-text) !important;
+    text-decoration: none;
+}
+
+div.dtr-modal table a:hover {
+    text-decoration: underline;
+}
+
+/*
+|--------------------------------------------------------------------------
 | Responsive
 |--------------------------------------------------------------------------
 */
@@ -656,6 +789,30 @@
 }
 
 @media (max-width: 575.98px) {
+    div.dtr-modal {
+        align-items: flex-end;
+        padding: .75rem !important;
+    }
+
+    div.dtr-modal div.dtr-modal-display {
+        width: 100% !important;
+        max-height: calc(100vh - 1.5rem) !important;
+        border-radius: 1rem !important;
+    }
+
+    div.dtr-modal div.dtr-modal-content {
+        max-height: calc(100vh - 1.5rem) !important;
+        padding: 3.5rem .85rem .85rem !important;
+    }
+
+    div.dtr-modal table tbody tr td {
+        padding: .8rem !important;
+    }
+
+    div.dtr-modal table tbody tr td:first-child {
+        width: 40%;
+    }
+
     .premium-list {
         margin-top: .5rem;
     }

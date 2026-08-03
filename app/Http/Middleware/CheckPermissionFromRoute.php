@@ -13,20 +13,12 @@ class CheckPermissionFromRoute
     {
         $user = backpack_user();
 
-        if (! $user) {
-            Alert::error('Pagina nao existe.')->flash();
+        if (! $user || ! $permission || ! $user->can($permission)) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Você não possui permissão para esta ação.'], 403);
+            }
 
-            return redirect()->route('backpack.dashboard');
-        }
-
-        if (! $permission) {
-            Alert::error('Pagina nao existe.')->flash();
-
-            return redirect()->route('backpack.dashboard');
-        }
-
-        if (! $user->can($permission)) {
-            Alert::error('Pagina nao existe.')->flash();
+            Alert::error('Página não encontrada.')->flash();
 
             return redirect()->route('backpack.dashboard');
         }

@@ -1,0 +1,47 @@
+.starter-active-switch {
+    width: 2.5rem;
+    height: 1.35rem;
+    margin-top: 0;
+    cursor: pointer;
+    background-color: var(--starter-status-inactive) !important;
+    border-color: var(--starter-status-inactive) !important;
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.starter-active-switch:checked {
+    background-color: var(--starter-success) !important;
+    border-color: var(--starter-success) !important;
+}
+
+.starter-active-switch:focus {
+    box-shadow: 0 0 0 0.2rem var(--starter-success-line);
+}
+
+.starter-active-switch:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.starter-active-switch-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.75rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    transition: color 160ms ease, background-color 160ms ease;
+}
+
+.starter-active-switch-label.is-active {
+    color: var(--starter-success-text);
+    background-color: var(--starter-success-soft);
+}
+
+.starter-active-switch-label.is-inactive {
+    color: var(--starter-muted);
+    background-color: var(--starter-status-inactive-soft);
+}

@@ -16,7 +16,7 @@ O Backpack usa o Basset para servir os assets do painel admin. Ele salva os arqu
 storage/app/public/basset
 ```
 
-Se o `/admin` abrir quebrado, com HTML basico e sem CSS/JS, rode:
+Se o `/app` abrir quebrado, com HTML basico e sem CSS/JS, rode:
 
 ```bash
 docker compose exec app-dev php artisan storage:link

@@ -16,6 +16,76 @@
     row-gap: 16px;
 }
 
+.role-scope-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.role-scope-card {
+    padding: 14px;
+    border: 1px solid var(--starter-line);
+    border-radius: 14px;
+}
+
+.role-scope-card-platform {
+    background: var(--starter-system-primary-soft);
+    border-color: var(--starter-system-primary-line);
+}
+
+.role-scope-card-tenant {
+    background: var(--starter-success-soft);
+    border-color: var(--starter-success-line);
+}
+
+.role-scope-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.role-scope-header > i {
+    margin-top: 2px;
+    font-size: 20px;
+}
+
+.role-scope-card-platform .role-scope-header > i,
+.role-scope-card-platform .role-chip {
+    color: var(--starter-system-primary);
+}
+
+.role-scope-card-tenant .role-scope-header > i,
+.role-scope-card-tenant .role-chip {
+    color: var(--starter-success-text);
+}
+
+.role-scope-header strong,
+.role-scope-header small {
+    display: block;
+}
+
+.role-scope-header small {
+    margin-top: 2px;
+    color: var(--starter-muted);
+}
+
+.role-scope-card .role-chip {
+    border: 1px solid currentColor;
+    background: var(--starter-card);
+}
+
+.role-scope-card-platform .btn-check:checked + .role-chip {
+    color: var(--starter-on-accent);
+    background: var(--starter-system-primary);
+}
+
+.role-scope-card-tenant .btn-check:checked + .role-chip {
+    color: var(--starter-on-accent);
+    background: var(--starter-success);
+}
+
 .permission-module {
     height: 100%;
     border: 1px solid var(--starter-line);

@@ -9,4 +9,5 @@ enum CrudListIcon: string
     case Roles = 'la la-user-shield';
     case Permissions = 'la la-key';
     case ActivityLogs = 'la la-history';
+    case Tenants = 'la la-building';
 }

@@ -36,3 +36,7 @@
         </a>
     </li>
 @endif
+
+@if (backpack_user()?->can('tenants.access'))
+    <x-backpack::menu-item title="Empresas" icon="la la-building" :link="backpack_url('tenant')" />
+@endif

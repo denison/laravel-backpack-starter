@@ -1,0 +1,122 @@
+.starter-media-upload-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.starter-media-dropzone {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 150px;
+    padding: 1rem;
+    border: 1.5px dashed var(--starter-line);
+    border-radius: 14px;
+    color: var(--starter-ink);
+    background: var(--starter-card-soft);
+    cursor: pointer;
+    transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.starter-media-dropzone:hover,
+.starter-media-dropzone:focus,
+.starter-media-dropzone.is-dragging {
+    outline: none;
+    border-color: var(--starter-accent);
+    background: var(--starter-accent-soft);
+    box-shadow: 0 0 0 4px var(--starter-accent-focus);
+}
+
+.starter-media-preview {
+    width: 120px;
+    height: 120px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 120px;
+    overflow: hidden;
+    border: 1px solid var(--starter-line);
+    border-radius: 14px;
+    color: var(--starter-muted);
+    background: var(--starter-input);
+}
+
+.starter-media-preview img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+.starter-media-upload-avatar .starter-media-preview img {
+    object-fit: cover;
+}
+
+.starter-media-placeholder i {
+    font-size: 2.4rem;
+}
+
+.starter-media-copy {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.starter-media-copy strong {
+    font-size: .95rem;
+}
+
+.starter-media-copy span,
+.starter-media-copy small {
+    color: var(--starter-muted);
+}
+
+.starter-media-copy small {
+    margin-top: .35rem;
+    line-height: 1.45;
+}
+
+.starter-media-actions {
+    display: flex;
+    gap: .65rem;
+    flex-wrap: wrap;
+    margin-top: .75rem;
+}
+
+.starter-tenant-logo {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--starter-line);
+    border-radius: 12px;
+    color: var(--starter-muted);
+    background: var(--starter-card-soft);
+}
+
+.starter-tenant-logo img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+.starter-tenant-logo i {
+    font-size: 1.45rem;
+}
+
+@media (max-width: 575.98px) {
+    .starter-media-dropzone {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .starter-media-preview {
+        width: 100%;
+        height: 160px;
+        flex-basis: 160px;
+    }
+}

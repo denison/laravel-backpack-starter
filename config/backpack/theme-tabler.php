@@ -45,6 +45,9 @@ return [
         base_path('resources/css/backpack/show.css'),
         base_path('resources/css/backpack/form-template.css'),
         base_path('resources/css/backpack/forms/roles.css'),
+        base_path('resources/css/backpack/forms/users.css'),
+        base_path('resources/css/backpack/active-switch.css'),
+        base_path('resources/css/backpack/media.css'),
 
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/glass.css'),
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/fuzzy-background.css'),
@@ -52,6 +55,14 @@ return [
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/vertical-lines-background.css'),
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/pinstripe-background.css'),
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/paper-background.css'),
+    ],
+
+    'scripts' => [
+        base_path('resources/js/backpack/selects.js'),
+        base_path('resources/js/backpack/masks.js'),
+        base_path('resources/js/backpack/postal-code.js'),
+        base_path('resources/js/backpack/active-switch.js'),
+        base_path('resources/js/backpack/media-upload.js'),
     ],
 
     /**

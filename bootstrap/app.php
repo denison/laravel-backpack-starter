@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Middleware\CheckPermissionFromRoute;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Prologue\Alerts\Facades\Alert;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,19 +15,42 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Laravel 12: aliases de middleware ficam aqui, no lugar do antigo app/Http/Kernel.php.
+        // Laravel 13: aliases de middleware ficam aqui, no lugar do antigo app/Http/Kernel.php.
         $middleware->alias([
             'check.permission' => CheckPermissionFromRoute::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->render(function (ModelNotFoundException $e, $request) {
-            if ($request->is(trim(config('backpack.base.route_prefix', 'admin'), '/').'*')) {
-                Alert::error('Pagina nao existe.')->flash();
+        $exceptions->respond(function (Response $response): Response {
+            $request = request();
+            $routePrefix = trim(config('backpack.base.route_prefix', 'app'), '/');
+            $isBackpackRoute = $request->is($routePrefix, "{$routePrefix}/*");
 
-                return redirect()->route('backpack.dashboard');
+            if (
+                $response->getStatusCode() !== Response::HTTP_NOT_FOUND
+                || ! $isBackpackRoute
+                || $request->expectsJson()
+                || ! backpack_auth()->check()
+            ) {
+                return $response;
             }
 
-            return null;
+            $previousUrl = $request->headers->get('referer');
+            $previousScheme = $previousUrl ? parse_url($previousUrl, PHP_URL_SCHEME) : null;
+            $previousHost = $previousUrl ? parse_url($previousUrl, PHP_URL_HOST) : null;
+            $previousPort = $previousUrl ? parse_url($previousUrl, PHP_URL_PORT) : null;
+            $isSameOrigin = $previousScheme === $request->getScheme()
+                && $previousHost === $request->getHost()
+                && ($previousPort ?? $request->getPort()) === $request->getPort();
+            $isCurrentPage = $previousUrl
+                && rtrim($previousUrl, '/') === rtrim($request->fullUrl(), '/');
+
+            $destination = $isSameOrigin && ! $isCurrentPage
+                ? $previousUrl
+                : route('backpack.dashboard');
+
+            Alert::warning('Página não encontrada.')->flash();
+
+            return redirect()->to($destination);
         });
     })->create();

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\CheckIfAdmin;
+use App\Http\Middleware\EnsureAccountIsActive;
 use Backpack\CRUD\app\Http\Middleware\AuthenticateSession;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 
@@ -26,9 +26,9 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    // The prefix used in all base routes (the 'admin' in admin/dashboard)
+    // The prefix used in all base routes (the 'app' in app/dashboard)
     // You can make sure all your URLs use this prefix by using the backpack_url() helper instead of url()
-    'route_prefix' => 'admin',
+    'route_prefix' => env('BACKPACK_BASE_ROUTE_PREFIX', 'app'),
 
     // The web middleware (group) used in all base & CRUD routes
     // If you've modified your "web" middleware group (ex: removed sessions), you can use a different
@@ -40,7 +40,7 @@ return [
     //     \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
     //     \Illuminate\Session\Middleware\StartSession::class,
     //     \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-    //     \App\Http\Middleware\VerifyCsrfToken::class,
+    //     \Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class,
     // ],
 
     // Set this to false if you would like to use your own AuthController and PasswordController
@@ -114,7 +114,7 @@ return [
     // The classes for the middleware to check if the visitor is an admin
     // Can be a single class or an array of classes
     'middleware_class' => [
-        CheckIfAdmin::class,
+        EnsureAccountIsActive::class,
         ConvertEmptyStringsToNull::class,
         AuthenticateSession::class,
         // \Backpack\CRUD\app\Http\Middleware\UseBackpackAuthGuardInsteadOfDefaultAuthGuard::class,
@@ -147,7 +147,7 @@ return [
     // Other options:
     // - null (generic image with their first letter)
     // - example_method_name (specify the method on the User model that returns the URL)
-    'avatar_type' => 'gravatar',
+    'avatar_type' => 'avatarUrl',
 
     // Gravatar fallback options are 'identicon', 'monsterid', 'wavatar', 'retro', 'robohash', 'blank'
     // 'blank' will keep the generic image with the user first letter

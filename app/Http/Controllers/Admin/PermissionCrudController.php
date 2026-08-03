@@ -20,10 +20,6 @@ use Spatie\Permission\PermissionRegistrar;
 
 class PermissionCrudController extends CrudController
 {
-    protected string $role_model;
-
-    protected string $permission_model;
-
     use CreateOperation;
     use DeleteOperation;
     use HasCreateSections;
@@ -41,10 +37,7 @@ class PermissionCrudController extends CrudController
 
     public function setup()
     {
-        $this->role_model = $role_model = config('backpack.permissionmanager.models.role');
-        $this->permission_model = $permission_model = config('backpack.permissionmanager.models.permission');
-
-        $this->crud->setModel($permission_model);
+        $this->crud->setModel(config('backpack.permissionmanager.models.permission'));
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.permission_singular'), trans('backpack::permissionmanager.permission_plural'));
         $this->crud->setRoute(backpack_url('permission'));
 
@@ -131,23 +124,5 @@ class PermissionCrudController extends CrudController
             'section' => CreateSection::Main->value,
             'hint' => 'Use em português (nome amigável) que será exibido para os usuários no painel.',
         ]);
-    }
-
-    /*
-     * Get an array list of all available guard types
-     * that have been defined in app/config/auth.php
-     *
-     * @return array
-     **/
-    private function getGuardTypes()
-    {
-        $guards = config('auth.guards');
-
-        $returnable = [];
-        foreach ($guards as $key => $details) {
-            $returnable[$key] = $key;
-        }
-
-        return $returnable;
     }
 }

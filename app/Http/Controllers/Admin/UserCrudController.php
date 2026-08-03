@@ -8,6 +8,7 @@ use App\Http\Requests\UserStoreCrudRequest;
 use App\Http\Requests\UserUpdateCrudRequest;
 use App\Services\UserService;
 use App\Traits\HasCreateSections;
+use App\Traits\HasCrudEntryPolicy;
 use App\Traits\HasCrudListFilters;
 use App\Traits\HasCrudRoutePermissions;
 use App\Traits\HasCrudUiPermissions;
@@ -16,17 +17,17 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-// use Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest as StoreRequest;
-// use Backpack\PermissionManager\app\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 
 class UserCrudController extends CrudController
 {
     use CreateOperation { store as traitStore; }
     use DeleteOperation;
     use HasCreateSections;
+    use HasCrudEntryPolicy;
     use HasCrudListFilters;
     use HasCrudRoutePermissions;
     use HasCrudUiPermissions;
@@ -39,6 +40,7 @@ class UserCrudController extends CrudController
         parent::__construct();
 
         $this->applyCrudRoutePermissions('users');
+        $this->applyCrudEntryPolicy(config('backpack.permissionmanager.models.user'));
     }
 
     public function setup()
@@ -50,7 +52,9 @@ class UserCrudController extends CrudController
         CRUD::setCreateView('admin.users.form');
         CRUD::setEditView('admin.users.form');
 
-        $this->applyUserVisibilityScope();
+        $this->crud->addBaseClause(function ($query): void {
+            $this->userService()->applyVisibility($query, backpack_user());
+        });
         $this->applyCrudUiPermissions('users');
     }
 
@@ -70,6 +74,25 @@ class UserCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.email'),
                 'type' => 'email',
             ],
+            [
+                'name' => 'tenant.name',
+                'label' => 'Empresa',
+                'type' => 'text',
+                'default' => '-',
+            ],
+            [
+                'name' => 'active',
+                'label' => 'Status',
+                'type' => 'view',
+                'view' => 'admin.crud.columns.active_switch',
+                'status_url' => fn ($entry) => backpack_url("user/{$entry->getKey()}/active"),
+                'can_toggle' => function ($entry): bool {
+                    $actor = backpack_user();
+
+                    return (bool) $actor?->can('users.edit')
+                        && Gate::forUser($actor)->allows('update', $entry);
+                },
+            ],
             [ // n-n relationship (with pivot table)
                 'label' => trans('backpack::permissionmanager.roles'), // Table column heading
                 'type' => 'closure',
@@ -78,8 +101,11 @@ class UserCrudController extends CrudController
                     return $entry->roles
                         ->map(function ($role) {
                             $label = e($role->display_name ?: $role->name);
+                            $isTenantRole = str_starts_with($role->name, 'tenant_');
+                            $color = $isTenantRole ? 'success' : 'primary';
+                            $icon = $isTenantRole ? 'la-building' : 'la-cloud';
 
-                            return '<span class="badge bg-primary-subtle text-primary border border-primary-subtle d-inline-flex align-items-center gap-1 px-2 py-1"><i class="la la-users"></i>'.$label.'</span>';
+                            return '<span class="badge bg-'.$color.'-subtle text-'.$color.' border border-'.$color.'-subtle d-inline-flex align-items-center gap-1 px-2 py-1"><i class="la '.$icon.'"></i>'.$label.'</span>';
                         })
                         ->implode(' ');
                 },
@@ -124,17 +150,17 @@ class UserCrudController extends CrudController
 
     public function setupCreateOperation()
     {
+        $this->setupUserFormData();
         $this->addUserFields();
         $this->prepareCreateSections();
-        $this->setupUserFormData();
         $this->crud->setValidation(UserStoreCrudRequest::class);
     }
 
     public function setupUpdateOperation()
     {
-        $this->addUserFields();
-        $this->prepareCreateSections();
         $this->setupUserFormData();
+        $this->addUserFields();
+        $this->prepareUpdateSections();
         $this->crud->setValidation(UserUpdateCrudRequest::class);
     }
 
@@ -143,6 +169,18 @@ class UserCrudController extends CrudController
         // automatically add the columns
         $this->crud->column('name');
         $this->crud->column('email');
+        $this->crud->column([
+            'name' => 'active',
+            'label' => 'Status',
+            'type' => 'boolean',
+            'options' => [0 => 'Inativo', 1 => 'Ativo'],
+        ]);
+        $this->crud->column([
+            'name' => 'tenant.name',
+            'label' => 'Empresa',
+            'type' => 'text',
+            'default' => '-',
+        ]);
         $this->crud->column([
             // two interconnected entities
             'label' => trans('backpack::permissionmanager.user_role_permission'),
@@ -179,16 +217,24 @@ class UserCrudController extends CrudController
      */
     public function store()
     {
-        $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->setRequest($this->userService()->prepareRequestForSave($this->crud->getRequest()));
+        $request = $this->crud->validateRequest();
+        $avatar = $request->file('avatar');
+        $removeAvatar = $request->boolean('remove_avatar');
+        $request->files->remove('avatar');
+        $request->replace(
+            $this->userService()->prepareDataForSave($request->all(), backpack_user())
+        );
+        $this->crud->setRequest($request);
         $this->crud->unsetValidation(); // validation has already been run
 
         $response = $this->traitStore();
         $this->userService()->syncRolesAndPermissions(
+            backpack_user(),
             $this->crud->entry,
             (array) $this->crud->getRequest()->input('roles', []),
             (array) $this->crud->getRequest()->input('permissions', [])
         );
+        $this->userService()->syncAvatar($this->crud->entry, $avatar, $removeAvatar);
 
         return $response;
     }
@@ -200,16 +246,24 @@ class UserCrudController extends CrudController
      */
     public function update()
     {
-        $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->setRequest($this->userService()->prepareRequestForSave($this->crud->getRequest()));
+        $request = $this->crud->validateRequest();
+        $avatar = $request->file('avatar');
+        $removeAvatar = $request->boolean('remove_avatar');
+        $request->files->remove('avatar');
+        $request->replace(
+            $this->userService()->prepareDataForSave($request->all(), backpack_user())
+        );
+        $this->crud->setRequest($request);
         $this->crud->unsetValidation(); // validation has already been run
 
         $response = $this->traitUpdate();
         $this->userService()->syncRolesAndPermissions(
+            backpack_user(),
             $this->crud->entry,
             (array) $this->crud->getRequest()->input('roles', []),
             (array) $this->crud->getRequest()->input('permissions', [])
         );
+        $this->userService()->syncAvatar($this->crud->entry, $avatar, $removeAvatar);
 
         return $response;
     }
@@ -217,6 +271,16 @@ class UserCrudController extends CrudController
     protected function addUserFields()
     {
         $this->crud->addFields([
+            [
+                'name' => 'avatar',
+                'label' => 'Foto do usuário',
+                'type' => 'starter_image_upload',
+                'collection' => 'avatar',
+                'upload' => true,
+                'hint' => 'JPG, PNG ou WebP de até 5 MB. A imagem será recortada para o formato quadrado.',
+                'section' => CreateSection::Main->value,
+                'wrapper' => ['class' => 'form-group col-md-12'],
+            ],
             [
                 'name' => 'name',
                 'label' => trans('backpack::permissionmanager.name'),
@@ -241,36 +305,31 @@ class UserCrudController extends CrudController
                 'type' => 'password',
                 'section' => CreateSection::Main->value,
             ],
-            // [
-            //     // two interconnected entities
-            //     'label' => trans('backpack::permissionmanager.user_role_permission'),
-            //     'field_unique_name' => 'user_role_permission',
-            //     'type' => 'checklist_dependency',
-            //     'section' => CreateSection::Custom->value,
-            //     'name' => 'roles,permissions',
-            //     'subfields' => [
-            //         'primary' => [
-            //             'label' => trans('backpack::permissionmanager.roles'),
-            //             'name' => 'roles', // the method that defines the relationship in your Model
-            //             'entity' => 'roles', // the method that defines the relationship in your Model
-            //             'entity_secondary' => 'permissions', // the method that defines the relationship in your Model
-            //             'attribute' => 'name', // foreign key attribute that is shown to user
-            //             'model' => config('permission.models.role'), // foreign key model
-            //             'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
-            //             'number_columns' => 3, // can be 1,2,3,4,6
-            //         ],
-            //         'secondary' => [
-            //             'label' => mb_ucfirst(trans('backpack::permissionmanager.permission_plural')),
-            //             'name' => 'permissions', // the method that defines the relationship in your Model
-            //             'entity' => 'permissions', // the method that defines the relationship in your Model
-            //             'entity_primary' => 'roles', // the method that defines the relationship in your Model
-            //             'attribute' => 'name', // foreign key attribute that is shown to user
-            //             'model' => config('permission.models.permission'), // foreign key model
-            //             'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
-            //             'number_columns' => 3, // can be 1,2,3,4,6
-            //         ],
-            //     ],
-            // ],
+            [
+                'name' => 'tenant_id',
+                'label' => 'Empresa',
+                'type' => 'select_from_array',
+                'options' => $this->data['tenantOptions'] ?? [],
+                'allows_null' => true,
+                'placeholder' => 'Selecione a empresa',
+                'attributes' => [
+                    'class' => 'form-control form-select starter-select2',
+                    'data-placeholder' => 'Selecione a empresa',
+                ],
+                'section' => CreateSection::Relations->value,
+                'wrapper' => [
+                    'class' => 'form-group col-md-12',
+                    'id' => 'tenant-field-wrapper',
+                ],
+            ],
+            [
+                'name' => 'active',
+                'label' => 'Usuário ativo',
+                'type' => 'checkbox',
+                'default' => true,
+                'section' => CreateSection::Main->value,
+                'wrapper' => ['class' => 'form-group col-md-12'],
+            ],
         ]);
     }
 
@@ -309,16 +368,23 @@ class UserCrudController extends CrudController
                 $crud->addClause('where', 'email', 'like', "%{$value}%");
             },
         ]);
-    }
 
-    protected function applyUserVisibilityScope(): void
-    {
-        $user = backpack_user();
+        $this->addCrudListFilter([
+            'name' => 'active',
+            'label' => 'Status',
+            'type' => 'select',
+            'operator' => '=',
+            'options' => ['1' => 'Ativo', '0' => 'Inativo'],
+        ]);
 
-        if ($user && method_exists($user, 'hasRole') && ! $user->hasRole('super')) {
-            $this->crud->addBaseClause('whereDoesntHave', 'roles', function ($query) {
-                $query->where('name', 'super');
-            });
+        if (! backpack_user()?->tenant_id) {
+            $this->addCrudListFilter([
+                'name' => 'tenant_id',
+                'label' => 'Empresa',
+                'type' => 'select',
+                'operator' => '=',
+                'options' => $this->userService()->tenantOptions(backpack_user()),
+            ]);
         }
     }
 

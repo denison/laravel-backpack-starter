@@ -33,7 +33,7 @@ http://localhost:8989
 Painel admin:
 
 ```text
-http://localhost:8989/admin
+http://localhost:8989/app
 ```
 
 MySQL local exposto em:

@@ -84,7 +84,7 @@ app/Http/Controllers/Admin/ActivityLogCrudController.php
 Rota:
 
 ```text
-/admin/activity-log
+/app/activity-log
 ```
 
 Arquivo de rota:

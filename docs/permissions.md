@@ -17,7 +17,10 @@ Este starter usa Spatie Permission integrado ao Backpack.
 Roles iniciais:
 
 - `super`: perfil tecnico/plataforma. Recebe todas as permissoes cadastradas.
-- `admin`: perfil administrativo. Comeca com acesso ao gerenciamento de usuarios.
+- `manager`: gestor da plataforma. Administra usuarios, empresas e logs.
+- `administrative`: administrativo da plataforma. Comeca com acesso as empresas.
+- `tenant_admin`: gestor da empresa. Administra usuarios da propria empresa.
+- `tenant_administrative`: administrativo da empresa. Comeca sem permissoes.
 
 Usuarios iniciais sao criados pelo seeder:
 
@@ -38,9 +41,9 @@ SEED_SUPER_NAME="Super Admin"
 SEED_SUPER_EMAIL=super@example.com
 SEED_SUPER_PASSWORD=password
 
-SEED_ADMIN_NAME="Admin"
-SEED_ADMIN_EMAIL=admin@example.com
-SEED_ADMIN_PASSWORD=password
+SEED_MANAGER_NAME="Platform Manager"
+SEED_MANAGER_EMAIL=manager@example.com
+SEED_MANAGER_PASSWORD=password
 ```
 
 Em producao, troque esses valores antes de rodar os seeders.
@@ -64,7 +67,7 @@ Exemplo:
 
 ## Middleware de Permissao
 
-No Laravel 12, aliases de middleware sao registrados em `bootstrap/app.php`, dentro de `withMiddleware()`. Nao existe `app/Http/Kernel.php` por padrao como nos projetos Laravel antigos.
+No Laravel 13, aliases de middleware sao registrados em `bootstrap/app.php`, dentro de `withMiddleware()`. Nao existe `app/Http/Kernel.php` por padrao como nos projetos Laravel antigos.
 
 Alias atual:
 
