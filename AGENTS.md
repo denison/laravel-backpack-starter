@@ -32,6 +32,9 @@ CrudController -> Service -> RepositoryInterface -> Repository -> Model
   - preenchido: usuário pertencente a uma empresa.
 - Não criar `tenant_user`: um usuário pertence a uma empresa. Atribuir funcionários da plataforma a várias empresas é outra regra de negócio e não pertence a esta base.
 - Não adicionar global scope genérico de tenancy. Cada módulo futuro deve aplicar sua regra quando o domínio exigir.
+- `/app/dashboard` é o contexto global da plataforma; `/app/company` é o contexto da empresa.
+- Usuários da plataforma selecionam a empresa pela listagem de empresas e mantêm essa seleção somente na sessão. Usuários de empresa usam sempre o próprio `tenant_id`.
+- Fora do contexto da empresa, `/app/user` contém somente usuários da plataforma; `/app/company/user` contém somente usuários do tenant atual.
 - Visibilidade da listagem de usuários fica no `UserRepository`; acesso direto fica na `UserPolicy`.
 - Usuário de empresa só pode consultar e administrar usuários da própria empresa.
 - A tentativa de acessar registro oculto continua semanticamente como 404, mas o painel volta à página anterior ou ao dashboard com Noty genérico.
@@ -73,9 +76,13 @@ Permissões de `permissions.*`, `roles.*`, `tenants.*` e `activity_logs.*` são 
 
 - CSS global do painel: `resources/css/backpack`.
 - Tokens e cores: `resources/css/backpack/theme.css`.
+- A estrutura reutilizável dos layouts verticais fica em `resources/css/backpack/vertical-sidebar.css`; cores e largura devem ser alteradas somente pelos tokens `--starter-sidebar-*` de `theme.css`.
+- A ajuda da sidebar fica fora da lista do menu e aparece somente para usuários vinculados a empresa.
 - JavaScript global do painel: `resources/js/backpack`.
 - Assets são registrados em `config/backpack/theme-tabler.php` e exigem `php artisan basset:clear` depois de alterações.
+- O seletor de empresa do header reutiliza `starter-select-shell`, `starter-select-shell-icon` e o Select2 global; não criar outro mecanismo de empresa ativa.
 - O select global gratuito usa `select_from_array` com a classe `starter-select2`.
+- Select2 com ícone interno usa o field Backpack `starter_select2_icon`; fora de CRUDs, usar `starter-select-shell` com `starter-select-shell-icon`. Altura, padding, raio, cloak, múltipla seleção e dark mode ficam centralizados em `resources/css/backpack/select2.css`.
 - Máscaras são acionadas por classes JS reutilizáveis.
 - O modal responsivo da tabela é o `dtr-modal` nativo do DataTables; seu visual global fica em `list.css`.
 - Não inventar campos, agrupamentos ou layouts não solicitados.

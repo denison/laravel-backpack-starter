@@ -1,8 +1,17 @@
 (function (window, $) {
     'use strict';
 
+    function revealSelectShells(root) {
+        var scope = root && root.querySelectorAll ? root : document;
+
+        scope.querySelectorAll('.starter-select-shell[data-select2-cloak]').forEach(function (shell) {
+            shell.classList.add('is-select2-ready');
+        });
+    }
+
     function initializeStarterSelects(root) {
         if (!$ || !$.fn.select2) {
+            revealSelectShells(root);
             return;
         }
 
@@ -10,6 +19,7 @@
             var $select = $(this);
 
             if ($select.hasClass('select2-hidden-accessible')) {
+                $select.closest('.starter-select-shell').addClass('is-select2-ready');
                 return;
             }
 
@@ -49,6 +59,8 @@
                     }
                 }
             });
+
+            $select.closest('.starter-select-shell').addClass('is-select2-ready');
         });
     }
 

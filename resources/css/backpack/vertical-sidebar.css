@@ -1,0 +1,267 @@
+/*
+|--------------------------------------------------------------------------
+| Starter vertical sidebar
+|--------------------------------------------------------------------------
+|
+| Shared structure for Tabler vertical layouts. Colors and width belong to
+| theme.css so a new project can rebrand the sidebar without rewriting it.
+|
+*/
+
+.starter-sidebar {
+    --tblr-navbar-bg: var(--starter-sidebar-bg);
+    --tblr-navbar-border-color: transparent;
+    --tblr-navbar-color: var(--starter-sidebar-text);
+    --tblr-navbar-active-color: #ffffff;
+    color: var(--starter-sidebar-text);
+    background: var(--starter-sidebar-bg) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.starter-sidebar .navbar-brand {
+    width: 100%;
+    height: auto;
+    min-height: 9.375rem;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 1.5rem !important;
+    border: 0 !important;
+    overflow: visible !important;
+    text-align: left;
+}
+
+.starter-sidebar .navbar-brand a,
+.starter-sidebar .navbar-brand a:hover {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    max-height: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    overflow: visible;
+    white-space: normal;
+}
+
+.starter-sidebar .navbar-nav {
+    gap: .25rem;
+}
+
+.starter-sidebar .nav-item {
+    width: 100%;
+    margin: 0 !important;
+}
+
+.starter-sidebar .nav-link,
+.starter-sidebar .dropdown-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 2.75rem;
+    min-height: 2.75rem;
+    gap: .75rem;
+    margin: 0;
+    padding: 0 .8125rem;
+    border: 0 !important;
+    border-radius: .4375rem;
+    color: var(--starter-sidebar-text);
+    background: transparent !important;
+    font-size: .8125rem;
+    font-weight: 500;
+    line-height: 1.2;
+    transform: none !important;
+    transition: color .17s ease, background-color .17s ease;
+}
+
+.starter-sidebar .nav-link:hover,
+.starter-sidebar .dropdown-item:hover {
+    color: #ffffff !important;
+    background: var(--starter-sidebar-hover) !important;
+}
+
+.starter-sidebar .nav-link.active,
+.starter-sidebar .dropdown-item.active,
+.starter-sidebar .nav-item.active > .nav-link {
+    color: #ffffff !important;
+    background: var(--starter-sidebar-active) !important;
+    border-left: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.starter-sidebar .nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    color: currentColor !important;
+    font-size: 1.25rem !important;
+    line-height: 1 !important;
+}
+
+.starter-sidebar .nav-link > span,
+.starter-sidebar .dropdown-item > span {
+    min-width: 0;
+}
+
+.starter-sidebar .nav-link.active:not(.dropdown-toggle)::before,
+.starter-sidebar .nav-link.active:not(.dropdown-toggle)::after,
+.starter-sidebar .dropdown-item.active::before,
+.starter-sidebar .dropdown-item.active::after,
+.starter-sidebar .nav-item::before,
+.starter-sidebar .nav-item::after {
+    display: none !important;
+    content: none !important;
+}
+
+.starter-sidebar .dropdown-menu {
+    margin: .125rem 0 .25rem !important;
+    padding: .125rem 0 .125rem 2rem !important;
+    border: 0 !important;
+    border-radius: 0;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.starter-sidebar .dropdown-menu .dropdown-item {
+    height: 2.375rem;
+    min-height: 2.375rem;
+    padding-inline: .75rem !important;
+    font-size: .78125rem;
+    font-weight: 400;
+}
+
+.starter-sidebar .navbar-collapse .dropdown-toggle {
+    padding-inline: .8125rem !important;
+}
+
+.starter-sidebar .navbar-collapse .dropdown-toggle::after {
+    margin-left: auto;
+    padding-right: 0;
+    color: currentColor;
+    opacity: .65;
+    transition: transform .17s ease;
+}
+
+.starter-sidebar .navbar-collapse .dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+.starter-sidebar-help {
+    flex: 0 0 auto;
+    margin: auto 1.25rem 2rem !important;
+    padding-top: 1rem;
+}
+
+.starter-sidebar-help-card {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 3.875rem;
+    padding: .75rem .8125rem;
+    border-radius: .4375rem;
+    color: #ffffff;
+    background: var(--starter-sidebar-card);
+}
+
+.starter-sidebar-help-icon {
+    display: grid;
+    place-items: center;
+    width: 2.125rem;
+    height: 2.125rem;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    color: var(--starter-sidebar-icon-soft);
+    background: var(--starter-sidebar-hover);
+    font-size: 1.375rem;
+}
+
+.starter-sidebar-help-copy {
+    min-width: 0;
+}
+
+.starter-sidebar-help-copy strong,
+.starter-sidebar-help-copy small {
+    display: block;
+}
+
+.starter-sidebar-help-copy strong {
+    color: #ffffff;
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.starter-sidebar-help-copy small {
+    margin-top: .15rem;
+    color: var(--starter-sidebar-text-muted);
+    font-size: .625rem;
+    line-height: 1.35;
+}
+
+@media (min-width: 992px) {
+    .starter-admin .starter-sidebar.navbar-vertical {
+        width: var(--starter-sidebar-width);
+        min-width: var(--starter-sidebar-width);
+        max-width: var(--starter-sidebar-width);
+        height: 100vh;
+        min-height: 100vh;
+    }
+
+    .starter-admin[bp-layout^="vertical"] .page-wrapper {
+        margin-left: var(--starter-sidebar-width);
+    }
+
+    .starter-admin[bp-layout^="right-vertical"] .page-wrapper {
+        margin-right: var(--starter-sidebar-width);
+        margin-left: 0;
+    }
+
+    .starter-sidebar > .container-fluid {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        height: 100vh;
+        min-height: 100vh;
+        padding: 0 !important;
+    }
+
+    .starter-sidebar .navbar-brand {
+        flex: 0 0 auto;
+    }
+
+    .starter-sidebar .navbar-collapse {
+        display: flex !important;
+        flex: 1 1 0 !important;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        height: 0;
+        min-height: 0;
+        border: 0 !important;
+        background: transparent !important;
+        overflow: hidden;
+    }
+
+    .starter-sidebar .navbar-collapse > .navbar-nav {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+        width: 100%;
+        min-height: 0;
+        gap: .25rem;
+        padding: 0 .875rem !important;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .starter-sidebar {
+        box-shadow: 0 8px 24px rgba(15, 23, 42, .18) !important;
+    }
+}

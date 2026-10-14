@@ -3,13 +3,20 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Services\CompanyContextService;
 use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
+    public function __construct(
+        private readonly CompanyContextService $companyContext
+    ) {}
+
     public function before(User $actor, string $ability): ?bool
     {
-        return $actor->hasRole('super') ? true : null;
+        return $actor->hasRole('super') && ! $this->companyContext->currentTenant()
+            ? true
+            : null;
     }
 
     public function viewAny(User $actor): bool
@@ -39,16 +46,31 @@ class UserPolicy
 
     private function canAccess(User $actor, User $user): Response
     {
+        $currentTenant = $this->companyContext->currentTenant();
+
         if ($user->hasRole('super')) {
             return Response::denyAsNotFound();
         }
 
-        if (! $actor->tenant_id) {
-            return Response::allow();
+        if ($currentTenant) {
+            return $this->belongsToTenant($user, (int) $currentTenant->getKey());
         }
 
-        $belongsToSameTenant = (int) $actor->tenant_id === (int) $user->tenant_id;
-        $hasTenantRole = $user->roles()->whereIn('name', ['tenant_admin', 'tenant_administrative'])->exists();
+        if (! $actor->tenant_id) {
+            return $user->tenant_id === null
+                ? Response::allow()
+                : Response::denyAsNotFound();
+        }
+
+        return $this->belongsToTenant($user, (int) $actor->tenant_id);
+    }
+
+    private function belongsToTenant(User $user, int $tenantId): Response
+    {
+        $belongsToSameTenant = $tenantId === (int) $user->tenant_id;
+        $hasTenantRole = $user->roles()
+            ->whereIn('name', ['tenant_admin', 'tenant_administrative'])
+            ->exists();
 
         return $belongsToSameTenant && $hasTenantRole
             ? Response::allow()

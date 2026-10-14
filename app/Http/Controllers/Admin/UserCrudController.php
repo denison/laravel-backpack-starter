@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\CreateSection;
 use App\Enums\CrudListIcon;
+use App\Http\Middleware\EnsureUserRouteContext;
 use App\Http\Requests\UserStoreCrudRequest;
 use App\Http\Requests\UserUpdateCrudRequest;
 use App\Services\UserService;
@@ -39,6 +40,7 @@ class UserCrudController extends CrudController
     {
         parent::__construct();
 
+        $this->middleware(EnsureUserRouteContext::class);
         $this->applyCrudRoutePermissions('users');
         $this->applyCrudEntryPolicy(config('backpack.permissionmanager.models.user'));
     }
@@ -47,7 +49,7 @@ class UserCrudController extends CrudController
     {
         $this->crud->setModel(config('backpack.permissionmanager.models.user'));
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
-        $this->crud->setRoute(backpack_url('user'));
+        $this->crud->setRoute(backpack_url($this->userRoutePath()));
 
         CRUD::setCreateView('admin.users.form');
         CRUD::setEditView('admin.users.form');
@@ -85,7 +87,7 @@ class UserCrudController extends CrudController
                 'label' => 'Status',
                 'type' => 'view',
                 'view' => 'admin.crud.columns.active_switch',
-                'status_url' => fn ($entry) => backpack_url("user/{$entry->getKey()}/active"),
+                'status_url' => fn ($entry) => backpack_url("{$this->userRoutePath()}/{$entry->getKey()}/active"),
                 'can_toggle' => function ($entry): bool {
                     $actor = backpack_user();
 
@@ -377,7 +379,7 @@ class UserCrudController extends CrudController
             'options' => ['1' => 'Ativo', '0' => 'Inativo'],
         ]);
 
-        if (! backpack_user()?->tenant_id) {
+        if (! backpack_user()?->tenant_id && ! request()->routeIs('backpack.company.*')) {
             $this->addCrudListFilter([
                 'name' => 'tenant_id',
                 'label' => 'Empresa',
@@ -391,5 +393,12 @@ class UserCrudController extends CrudController
     protected function userService(): UserService
     {
         return app(UserService::class);
+    }
+
+    private function userRoutePath(): string
+    {
+        return request()->routeIs('backpack.company.*')
+            ? 'company/user'
+            : 'user';
     }
 }

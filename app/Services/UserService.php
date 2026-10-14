@@ -14,7 +14,8 @@ class UserService
     public function __construct(
         private readonly UserRepositoryInterface $users,
         private readonly TenantRepositoryInterface $tenants,
-        private readonly ImageMediaService $images
+        private readonly ImageMediaService $images,
+        private readonly CompanyContextService $companyContext
     ) {}
 
     public function formData(?object $actor): array
@@ -22,13 +23,13 @@ class UserService
         return [
             'rolesList' => $this->users->rolesAvailableFor($actor),
             'permissionsList' => $this->users->permissionsAvailableFor($actor),
-            'tenantOptions' => $this->tenants->optionsFor($actor),
+            'tenantOptions' => $this->tenants->optionsFor($actor, $this->companyContext->currentTenant()),
         ];
     }
 
     public function tenantOptions(?object $actor): array
     {
-        return $this->tenants->optionsFor($actor);
+        return $this->tenants->optionsFor($actor, $this->companyContext->currentTenant());
     }
 
     public function applyVisibility(Builder $query, ?object $actor): Builder
@@ -46,7 +47,9 @@ class UserService
         $roleId = collect((array) ($data['roles'] ?? []))->filter()->first();
         $roleName = $roleId ? $this->users->roleNameById((int) $roleId) : null;
 
-        if ($actor?->tenant_id) {
+        if ($currentTenant = $this->companyContext->currentTenant()) {
+            $data['tenant_id'] = $currentTenant->getKey();
+        } elseif ($actor?->tenant_id) {
             $data['tenant_id'] = $actor->tenant_id;
         } elseif (! is_string($roleName) || ! str_starts_with($roleName, 'tenant_')) {
             $data['tenant_id'] = null;

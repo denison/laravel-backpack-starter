@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckPermissionFromRoute;
+use App\Http\Middleware\EnsureCompanyContext;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Laravel 13: aliases de middleware ficam aqui, no lugar do antigo app/Http/Kernel.php.
         $middleware->alias([
             'check.permission' => CheckPermissionFromRoute::class,
+            'company.context' => EnsureCompanyContext::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

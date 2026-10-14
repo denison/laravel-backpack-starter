@@ -18,12 +18,13 @@ O projeto entrega autenticação, usuários, grupos, permissões, empresas, audi
 - Spatie Media Library
 - PHPUnit
 
-O painel utiliza o layout `horizontal_overlap`, skin `backpack-color-palette` e prefixo `/app`.
+O painel utiliza o layout `vertical_transparent`, skin `backpack-color-palette` e prefixo `/app`.
 
 ## Funcionalidades incluídas
 
 - Login e recuperação de senha pelo Backpack.
 - Separação entre usuários da plataforma e usuários de empresas.
+- Contextos distintos em `/app` e `/app/company`, com seletor da empresa ativa para usuários da plataforma.
 - Empresas com CPF/CNPJ, endereço, contatos, slug e status.
 - Consulta de CEP com preenchimento automático.
 - Máscaras reutilizáveis para CPF/CNPJ, CEP, telefone e WhatsApp.
@@ -69,36 +70,58 @@ SEED_MANAGER_PASSWORD=troque-esta-senha
 docker compose --profile dev up -d --build
 ```
 
-4. Instale as dependências:
+4. Instale as dependências PHP manualmente no container de desenvolvimento:
 
 ```bash
 docker compose --profile dev exec app-dev composer install
 ```
 
-5. Gere a chave da aplicação:
+5. No host, instale as dependências do frontend e gere os assets do Vite:
+
+```bash
+npm install
+npm run build
+```
+
+O container `app-dev` não inclui Node.js ou npm. Esses comandos devem ser
+executados na pasta do projeto, fora do container. O build cria o arquivo
+`public/build/manifest.json`, exigido pela aplicação. Repita-o quando houver
+alterações nas dependências ou nos assets processados pelo Vite.
+
+6. Gere a chave da aplicação:
 
 ```bash
 docker compose --profile dev exec app-dev php artisan key:generate
 ```
 
-6. Crie o banco e os acessos iniciais:
+7. Crie o banco e os acessos iniciais:
 
 ```bash
 docker compose --profile dev exec app-dev php artisan migrate --seed
 ```
 
-7. Prepare o storage e os assets do Backpack:
+8. Prepare o storage e os assets do Backpack:
 
 ```bash
 docker compose --profile dev exec app-dev php artisan storage:link
 docker compose --profile dev exec app-dev php artisan basset:cache
 ```
 
-8. Limpe os caches da aplicação:
+9. Limpe os caches da aplicação:
 
 ```bash
 docker compose --profile dev exec app-dev php artisan optimize:clear
 ```
+
+10. Reinicie o container da aplicação:
+
+```bash
+docker compose --profile dev restart app-dev
+```
+
+No primeiro clone, o `app-dev` é iniciado antes da instalação manual das
+dependências PHP. O reinício garante que o Supervisor carregue Horizon e Reverb
+depois que `vendor/autoload.php` estiver disponível.
 
 Acesse:
 

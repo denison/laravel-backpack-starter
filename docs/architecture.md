@@ -43,3 +43,18 @@ app/Contracts/Repositories/PermissionRepositoryInterface.php
 app/Repositories/PermissionRepository.php
 app/Services/PermissionService.php
 ```
+
+## Contextos da Plataforma e da Empresa
+
+O prefixo administrativo permanece `/app`, mas o domínio é separado por contexto:
+
+```text
+/app                 -> plataforma
+/app/company         -> empresa ativa
+/app/user            -> usuários da plataforma
+/app/company/user    -> usuários da empresa ativa
+```
+
+`CompanyContextService` é a única fonte de resolução do tenant atual. Para um usuário da plataforma, o identificador selecionado fica na sessão; para um usuário de empresa, o serviço usa obrigatoriamente `users.tenant_id`. `EnsureCompanyContext` valida empresa existente, ativa e não excluída antes de disponibilizá-la ao controller e às views.
+
+O contexto não substitui a autorização de domínio. O `UserRepository` filtra a listagem pelo espaço atual e a `UserPolicy` protege o acesso a cada registro.

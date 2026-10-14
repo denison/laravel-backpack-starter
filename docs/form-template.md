@@ -590,6 +590,26 @@ A view específica deve controlar apenas o conteúdo de:
 @endsection
 ```
 
+### Select2 com ícone
+
+Nos CRUDs Backpack, use o field reutilizável `starter_select2_icon` quando o Select2 precisar de um ícone interno:
+
+```php
+[
+    'name' => 'category_id',
+    'label' => 'Categoria',
+    'type' => 'starter_select2_icon',
+    'icon' => 'la la-folder',
+    'options' => $categoryOptions,
+    'placeholder' => 'Selecione a categoria',
+    'allows_null' => true,
+]
+```
+
+Para seleção múltipla, informe `allows_multiple => true` e mantenha `options` como um array de chave e rótulo. O field já aplica o shell, o cloak durante a inicialização, alinhamento, altura, padding, responsividade e dark mode.
+
+Fora de um CRUD, envolva o `select.starter-select2` com `starter-select-shell` e use `starter-select-shell-icon` no ícone. Não replique essas regras em CSS específico da página.
+
 ---
 
 ## 14. Checklist para criar um form específico

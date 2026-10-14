@@ -1,0 +1,71 @@
+/*
+|--------------------------------------------------------------------------
+| Company context switcher
+|--------------------------------------------------------------------------
+|
+| Header selector for the active tenant. It reuses the global theme tokens
+| and the same Select2 shell in light and dark modes.
+|
+*/
+
+.starter-topbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    gap: 1rem;
+}
+
+.starter-company-context-switcher {
+    width: clamp(18rem, 27vw, 22rem);
+    min-width: 0;
+    margin-right: 1rem;
+}
+
+.starter-company-context-switcher form {
+    margin: 0;
+}
+
+.starter-company-context-static {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 2.75rem;
+    gap: .75rem;
+    padding: .5rem 1rem;
+    border: 1px solid var(--starter-line);
+    border-radius: .75rem;
+    color: var(--starter-ink);
+    background: var(--starter-input);
+}
+
+.starter-company-context-static i {
+    flex: 0 0 auto;
+    color: var(--starter-muted);
+    font-size: 1.1rem;
+}
+
+.starter-company-context-static strong {
+    min-width: 0;
+    overflow: hidden;
+    font-size: .875rem;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.starter-company-context-action {
+    margin-top: .35rem;
+    padding-top: .65rem !important;
+    border-top: 1px solid var(--starter-line);
+    color: var(--starter-danger) !important;
+    font-weight: 700;
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .starter-company-context-switcher {
+        width: clamp(16rem, 32vw, 19rem);
+        margin-right: .5rem;
+    }
+}

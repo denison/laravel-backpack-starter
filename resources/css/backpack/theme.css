@@ -52,6 +52,16 @@
     --starter-system-primary-soft: #f3efff;
     --starter-system-primary-line: #e3d9ff;
 
+    /* Sidebar vertical: personalize estes tokens sem editar o componente. */
+    --starter-sidebar-width: 17rem;
+    --starter-sidebar-bg: #211a3b;
+    --starter-sidebar-hover: rgba(124, 92, 255, .26);
+    --starter-sidebar-active: var(--starter-system-primary);
+    --starter-sidebar-card: #30264f;
+    --starter-sidebar-text: rgba(255, 255, 255, .86);
+    --starter-sidebar-text-muted: rgba(255, 255, 255, .72);
+    --starter-sidebar-icon-soft: #c4b5fd;
+
     --starter-overlap-bg: var(--starter-system-primary);
     --starter-overlap-text: #f8fafc;
     --starter-overlap-muted: #e3d9ff;
@@ -161,6 +171,11 @@ body.dark-mode {
     --starter-system-primary-text: #d8ccff;
     --starter-system-primary-soft: rgba(139, 108, 255, .16);
     --starter-system-primary-line: rgba(139, 108, 255, .30);
+
+    --starter-sidebar-bg: #17131f;
+    --starter-sidebar-hover: rgba(139, 108, 255, .22);
+    --starter-sidebar-active: var(--starter-system-primary);
+    --starter-sidebar-card: #282132;
 
     --starter-overlap-bg: #1f1b25;
     --starter-overlap-text: #f7f4ff;

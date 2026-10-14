@@ -7,7 +7,8 @@ use App\Contracts\Repositories\UserRepositoryInterface;
 class UserAssignmentService
 {
     public function __construct(
-        private readonly UserRepositoryInterface $users
+        private readonly UserRepositoryInterface $users,
+        private readonly CompanyContextService $companyContext
     ) {}
 
     public function validationErrors(?object $actor, array $roleIds, mixed $tenantId): array
@@ -25,12 +26,15 @@ class UserAssignmentService
             $errors['tenant_id'] = 'Usuários da plataforma não devem pertencer a uma empresa.';
         }
 
-        if ($actor?->tenant_id) {
+        $contextTenantId = $this->companyContext->currentTenant()?->getKey();
+        $restrictedTenantId = $contextTenantId ?? $actor?->tenant_id;
+
+        if ($restrictedTenantId) {
             if (! in_array($roleName, ['tenant_admin', 'tenant_administrative'], true)) {
                 $errors['roles'] = 'Você só pode cadastrar usuários da sua empresa.';
             }
 
-            if ((int) $tenantId !== (int) $actor->tenant_id) {
+            if ((int) $tenantId !== (int) $restrictedTenantId) {
                 $errors['tenant_id'] = 'Você só pode cadastrar usuários na sua própria empresa.';
             }
         }

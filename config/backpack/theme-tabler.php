@@ -22,7 +22,7 @@ return [
      * Possible values: horizontal, horizontal_dark, horizontal_overlap, vertical,
      * vertical_dark, vertical_transparent (legacy theme), right_vertical, right_vertical_dark, right_vertical_transparent
      */
-    'layout' => 'horizontal_overlap',
+    'layout' => 'vertical_transparent',
 
     /**
      * Pick a login page layout.
@@ -48,6 +48,9 @@ return [
         base_path('resources/css/backpack/forms/users.css'),
         base_path('resources/css/backpack/active-switch.css'),
         base_path('resources/css/backpack/media.css'),
+        base_path('resources/css/backpack/select2.css'),
+        base_path('resources/css/backpack/vertical-sidebar.css'),
+        base_path('resources/css/backpack/company-context.css'),
 
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/glass.css'),
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/fuzzy-background.css'),
@@ -59,6 +62,7 @@ return [
 
     'scripts' => [
         base_path('resources/js/backpack/selects.js'),
+        base_path('resources/js/backpack/company-context.js'),
         base_path('resources/js/backpack/masks.js'),
         base_path('resources/js/backpack/postal-code.js'),
         base_path('resources/js/backpack/active-switch.js'),
@@ -97,7 +101,7 @@ return [
          * Fix the top-header component (present in "vertical_transparent") and the menu when the layout type is set as "horizontal".
          * This value is skipped when the layout type is horizontal-overlap, using false as default.
          */
-        'useStickyHeader' => false,
+        'useStickyHeader' => true,
 
         /**
          * When true, the content area will take the whole screen width.
@@ -107,7 +111,7 @@ return [
         /**
          * When true, the sidebar content for vertical layouts will not scroll with the rest of the content.
          */
-        'sidebarFixed' => false,
+        'sidebarFixed' => true,
 
         /**
          * When true, horizontal layouts will display the classic top bar on top to free some space when multiple nav items are used.
@@ -130,7 +134,7 @@ return [
         /**
          * Use this to pass classes to the <body> HTML element, on all pages.
          */
-        'body' => null,
+        'body' => 'starter-admin',
 
         /**
          * For background colors use:
@@ -149,7 +153,7 @@ return [
          * You can also add a background class like bg-dark, bg-primary, bg-secondary, bg-danger, bg-warning, bg-success,
          * bg-info, bg-blue, bg-light-blue, bg-indigo, bg-purple, bg-pink, bg-red, bg-orange, bg-yellow, bg-green, bg-teal, bg-cyan
          */
-        'sidebar' => null,
+        'sidebar' => 'navbar navbar-vertical navbar-expand-lg navbar-dark starter-sidebar',
 
         /**
          * Used in the top container menu when the layout is of horizontal type.

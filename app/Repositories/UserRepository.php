@@ -4,12 +4,17 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Models\User;
+use App\Services\CompanyContextService;
 use App\Support\PermissionScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
+    public function __construct(
+        private readonly CompanyContextService $companyContext
+    ) {}
+
     protected function modelClass(): string
     {
         return config('backpack.permissionmanager.models.user');
@@ -21,13 +26,19 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             return $query->whereRaw('1 = 0');
         }
 
-        if ($actor->tenant_id) {
+        $currentTenant = $this->companyContext->currentTenant();
+
+        if ($currentTenant || $actor->tenant_id) {
+            $tenantId = $currentTenant?->getKey() ?? $actor->tenant_id;
+
             return $query
-                ->where('tenant_id', $actor->tenant_id)
+                ->where('tenant_id', $tenantId)
                 ->whereHas('roles', function (Builder $roleQuery): void {
                     $roleQuery->whereIn('name', ['tenant_admin', 'tenant_administrative']);
                 });
         }
+
+        $query->whereNull('tenant_id');
 
         if (! $actor->hasRole('super')) {
             $query->whereDoesntHave('roles', function (Builder $roleQuery): void {
@@ -55,7 +66,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->with('permissions:id,name,display_name')
             ->orderBy('name');
 
-        if ($loggedUser?->tenant_id) {
+        if ($this->companyContext->currentTenant() || $loggedUser?->tenant_id) {
             return $query
                 ->whereIn('name', ['tenant_admin', 'tenant_administrative'])
                 ->get();
@@ -80,7 +91,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         $permissions = $query->get();
 
-        if ($loggedUser?->tenant_id) {
+        if ($this->companyContext->currentTenant() || $loggedUser?->tenant_id) {
             return $permissions
                 ->reject(fn ($permission) => PermissionScope::isPlatformOnly($permission->name))
                 ->values();

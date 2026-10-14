@@ -52,6 +52,7 @@ class TenantCrudController extends CrudController
         $this->crud->set('list.icon', CrudListIcon::Tenants->value);
         $this->crud->addClause('with', 'media');
         $this->crud->orderBy('name');
+        $this->crud->addButtonFromView('line', 'enter_company', 'enter_company', 'beginning');
 
         $this->setupListFilters();
 

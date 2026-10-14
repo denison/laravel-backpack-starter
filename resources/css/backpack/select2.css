@@ -1,0 +1,172 @@
+/*
+|--------------------------------------------------------------------------
+| Reusable Select2 shell
+|--------------------------------------------------------------------------
+|
+| Use starter-select-shell around starter-select2 when an internal leading
+| icon is needed. CRUDs should prefer the starter_select2_icon field.
+|
+*/
+
+.starter-select-shell {
+    --starter-select-shell-height: 2.75rem;
+    --starter-select-shell-radius: .75rem;
+    position: relative;
+    min-height: var(--starter-select-shell-height);
+}
+
+.starter-select-shell[data-select2-cloak] {
+    visibility: hidden;
+}
+
+.starter-select-shell[data-select2-cloak].is-select2-ready {
+    visibility: visible;
+}
+
+.starter-select-shell-icon {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 1rem;
+    color: var(--starter-muted);
+    font-size: 1.1rem;
+    line-height: 1;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.starter-select-shell-multiple .starter-select-shell-icon {
+    top: calc(var(--starter-select-shell-height) / 2);
+}
+
+.starter-admin .starter-select-shell > select.starter-select2 {
+    min-height: var(--starter-select-shell-height);
+    padding-right: 2.75rem;
+    padding-left: 2.8rem;
+    border-radius: var(--starter-select-shell-radius);
+}
+
+.starter-admin .starter-select-shell .select2-container .select2-selection--single {
+    display: flex;
+    align-items: center;
+    height: var(--starter-select-shell-height);
+    min-height: var(--starter-select-shell-height);
+    border-color: var(--starter-line);
+    border-radius: var(--starter-select-shell-radius);
+    color: var(--starter-input-text);
+    background: var(--starter-input);
+}
+
+.starter-admin .starter-select-shell .select2-selection--single .select2-selection__rendered {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 0 2.75rem 0 2.8rem !important;
+    color: var(--starter-input-text);
+    line-height: 1.25 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.starter-admin .starter-select-shell .select2-selection--single .select2-selection__arrow {
+    top: 0 !important;
+    right: .65rem !important;
+    height: 100% !important;
+}
+
+.starter-admin .starter-select-shell .select2-selection--multiple {
+    min-height: var(--starter-select-shell-height);
+    padding: .2rem .5rem .2rem 2.45rem;
+    border-color: var(--starter-line);
+    border-radius: var(--starter-select-shell-radius);
+    color: var(--starter-input-text);
+    background: var(--starter-input);
+}
+
+.starter-admin .starter-select-shell .select2-selection--multiple .select2-selection__rendered {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .25rem;
+    min-height: 2.15rem;
+    padding: 0;
+}
+
+.starter-admin .starter-select-shell .select2-selection--multiple .select2-selection__choice {
+    margin: 0;
+    padding: .22rem .5rem;
+    border-color: var(--starter-accent-line);
+    border-radius: .5rem;
+    color: var(--starter-accent-text);
+    background: var(--starter-accent-soft);
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.starter-admin .starter-select-shell .select2-selection--multiple .select2-search--inline {
+    float: none;
+    flex: 1 1 10rem;
+}
+
+.starter-admin .starter-select-shell .select2-selection--multiple .select2-search__field {
+    width: 100% !important;
+    min-height: 1.9rem;
+    margin: 0;
+    color: var(--starter-input-text);
+}
+
+.starter-admin .select2-dropdown {
+    overflow: hidden;
+    border-color: var(--starter-line);
+    border-radius: .75rem;
+    color: var(--starter-input-text);
+    background: var(--starter-input);
+    box-shadow: var(--starter-shadow);
+}
+
+.starter-admin .select2-search--dropdown {
+    padding: .5rem;
+    background: var(--starter-input);
+}
+
+.starter-admin .select2-search--dropdown .select2-search__field {
+    min-height: 2.35rem;
+    padding: .4rem .65rem;
+    border: 1px solid var(--starter-line);
+    border-radius: .5rem;
+    color: var(--starter-input-text);
+    background: var(--starter-input);
+    outline: none;
+}
+
+.starter-admin .select2-search--dropdown .select2-search__field:focus,
+.starter-admin .select2-container--bootstrap.select2-container--focus .select2-selection,
+.starter-admin .select2-container--bootstrap.select2-container--open .select2-selection,
+.starter-admin .select2-container--default.select2-container--focus .select2-selection,
+.starter-admin .select2-container--default.select2-container--open .select2-selection {
+    border-color: var(--starter-accent) !important;
+    box-shadow: 0 0 0 .2rem var(--starter-accent-focus) !important;
+}
+
+.starter-admin .select2-results__option {
+    padding: .6rem .75rem;
+    color: var(--starter-input-text);
+    background: var(--starter-input);
+}
+
+.starter-admin .select2-results__option[aria-selected="true"]:not(.select2-results__option--highlighted) {
+    color: var(--starter-accent-text) !important;
+    background: var(--starter-accent-soft) !important;
+}
+
+.starter-admin .select2-container--bootstrap .select2-results__option--highlighted[aria-selected],
+.starter-admin .select2-container--default .select2-results__option--highlighted[aria-selected],
+.starter-admin .select2-results__option--highlighted[aria-selected] {
+    color: #ffffff !important;
+    background: var(--starter-accent) !important;
+}
+
+.starter-admin .select2-results__message {
+    color: var(--starter-muted);
+}
